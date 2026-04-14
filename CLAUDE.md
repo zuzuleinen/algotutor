@@ -58,40 +58,40 @@ problems. Each level maps to harder problems within that concept.
 8. **matrix** — 2D arrays, traversal, rotation, spiral order
 9. **stacks** — LIFO, matching brackets, monotonic stacks, expression evaluation
 10. **queues** — FIFO, BFS usage, deques
-11. **linked-lists** — traversal, reversal, fast/slow pointers, merge, cycle detection
-12. **heaps** — priority queues, top-k, merge-k-sorted, median tracking
+11. **linked-lists** — traversal, reversal, fast/slow pointers, merge, cycle detection *(requires: arrays)*
 
 **Core Techniques**
 
-13. **sorting** — sort.Slice, custom comparators, sorted order reasoning
-14. **binary-search** — search in sorted data, search on answer, rotated arrays
-15. **two-pointers** — left/right on sorted data, pair/triplet finding
-16. **sliding-window** — fixed and variable size windows, substring problems
-17. **prefix-sums** — range sums, subarray sums, running totals
-18. **bit-manipulation** — bitwise ops, masks, XOR tricks, counting bits
+12. **sorting** — sort.Slice, custom comparators, sorted order reasoning *(requires: arrays, loops)*
+13. **binary-search** — search in sorted data, search on answer, rotated arrays *(requires: arrays, sorting)*
+14. **two-pointers** — left/right on sorted data, pair/triplet finding *(requires: arrays, sorting)*
+15. **sliding-window** — fixed and variable size windows, substring problems *(requires: arrays, loops)*
+16. **prefix-sums** — range sums, subarray sums, running totals *(requires: arrays, loops)*
+17. **bit-manipulation** — bitwise ops, masks, XOR tricks, counting bits *(requires: math)*
 
 **Recursion and Trees**
 
-19. **recursion** — base cases, recursive thinking, call stack
-20. **trees** — traversals (inorder/preorder/postorder), DFS, BFS, BST operations
-21. **tries** — prefix trees, autocomplete, word search
+18. **recursion** — base cases, recursive thinking, call stack *(requires: loops, math)*
+19. **trees** — binary trees, traversals (inorder/preorder/postorder), DFS, BFS, BST operations *(requires: recursion, linked-lists)*
+20. **heaps** — priority queues, top-k, merge-k-sorted, median tracking *(requires: trees, arrays)*
+21. **tries** — prefix trees, autocomplete, word search *(requires: trees, maps)*
 
 **Graph Algorithms**
 
-22. **graphs** — DFS, BFS, connected components, adjacency lists
-23. **topological-sort** — dependency ordering, DAGs, cycle detection
-24. **union-find** — disjoint sets, connected components, ranking
-25. **shortest-path** — Dijkstra, BFS unweighted, Bellman-Ford
+22. **graphs** — DFS, BFS, connected components, adjacency lists *(requires: trees, queues, maps)*
+23. **topological-sort** — dependency ordering, DAGs, cycle detection *(requires: graphs)*
+24. **union-find** — disjoint sets, connected components, ranking *(requires: arrays, recursion)*
+25. **shortest-path** — Dijkstra, BFS unweighted, Bellman-Ford *(requires: graphs, heaps)*
 
 **Advanced Techniques**
 
-26. **greedy** — local optimal choices, interval scheduling, activity selection
-27. **intervals** — merge, insert, overlap detection, sweep line
-28. **backtracking** — permutations, combinations, constraint satisfaction, N-queens
-29. **divide-and-conquer** — merge sort pattern, split and combine
-30. **dynamic-programming** — memoization, tabulation, subproblems, knapsack, LCS, LIS
-31. **monotonic-stacks** — next greater element, histogram problems, stock span
-32. **design** — LRU cache, iterator design, data structure composition
+26. **greedy** — local optimal choices, interval scheduling, activity selection *(requires: sorting)*
+27. **intervals** — merge, insert, overlap detection, sweep line *(requires: sorting, arrays)*
+28. **backtracking** — permutations, combinations, constraint satisfaction, N-queens *(requires: recursion)*
+29. **divide-and-conquer** — merge sort pattern, split and combine *(requires: recursion, arrays)*
+30. **dynamic-programming** — memoization, tabulation, subproblems, knapsack, LCS, LIS *(requires: recursion, maps, arrays)*
+31. **monotonic-stacks** — next greater element, histogram problems, stock span *(requires: stacks)*
+32. **design** — LRU cache, iterator design, data structure composition *(requires: linked-lists, maps, heaps)*
 
 ### Level Progression Within a Concept
 
@@ -101,19 +101,60 @@ problems. Each level maps to harder problems within that concept.
 - **Level 3**: Strong. Give problems that require this concept as a tool within a larger problem.
 - **Level 4+**: Mastery. Interview-level problems featuring this concept.
 
+### Teaching New Concepts (Level 0)
+
+**Assume the user is brand new to algorithms and data structures.** When training a concept at level 0, the user may
+never have heard of it before. Do not jump straight to a LeetCode-style problem.
+
+- **Introduce the concept first.** Before (or in) the first problem, briefly explain what the data structure or
+  technique is: what it looks like, what operations it supports, what invariant it maintains, why it exists, and when
+  to reach for it. A couple of sentences + a tiny concrete example is enough.
+- **Start with a construction/mechanics problem.** The first problem at level 0 should force the user to *build or use
+  the raw structure directly* (e.g. "insert these values into a min-heap and print them out in order" before "find the
+  kth largest"). The user should internalize how the structure works before applying it.
+- **Progress very gradually within level 0.** If the bank lists a medium-difficulty problem at level 0, it is still too
+  hard for a first-exposure problem — precede it with one or more warmup problems you invent, even if they are not in
+  the bank. Only hand them a bank problem once they can comfortably perform the basic mechanics.
+- **One new concept per problem.** Do not give a problem that combines concept A with concept B unless both A and B
+  have been learned. Every concept used in a problem must already be at level ≥ 1, except for the single concept
+  currently being taught. If a bank problem requires an unseen prerequisite, either pick a different problem or teach
+  the prerequisite concept first.
+- **Prerequisite gating.** Before presenting a problem, check every concept it touches against `progress.md`. If any
+  untaught concept is required, train that concept first rather than dropping the user into a multi-concept problem.
+- **Conceptual prerequisites (not just problem-level).** Each concept lists its prerequisite concepts in the Concept
+  List above in parentheses (e.g. "heaps *(requires: trees, arrays)*"). These are the mental-model prerequisites —
+  the vocabulary, data structures, and intuitions the user must already have in place to even *understand the
+  explanation* of the new concept. Before training any concept, every prerequisite concept must be at level ≥ 1 in
+  `progress.md`. If a prerequisite is below level 1, **do not teach the new concept yet** — reroute training to the
+  missing prerequisite first, even if it comes later in the concept list.
+- **Ordering rule.** The concept list above is ordered so that prerequisites always appear before dependents. If you
+  find yourself about to teach a concept before one of its listed prerequisites, stop — something is wrong (either the
+  list order is broken or the user's progress file is out of sync with the list). Fix the ordering or the progress
+  file; do not teach the concept out of order.
+
 ## Training Flow
 
 When the user says **"train"**:
 
 1. Read `progress.md` to see concept levels.
-2. Pick the concept to train: the earliest concept in the list that is below level 3, prioritizing concepts at level 0
-   first, then level 1, then level 2.
-3. Consult `problem-bank.md` to pick a specific problem at the right level for that concept. Prefer problems from the
-   bank over inventing new ones. If the user has already solved all bank problems at that level, pick the next available
-   or create a variation.
-4. Save it to `problems/NNN.md` with the concept noted.
-5. Update `current.md` to point to it.
-6. Write the problem template into `main.go` and present it.
+2. Pick the **candidate** concept: the earliest concept in the list that is below level 3, prioritizing concepts at
+   level 0 first, then level 1, then level 2.
+3. **Verify conceptual prerequisites.** Look up the candidate's `(requires: ...)` list in the Concept List. For each
+   listed prerequisite, check its level in `progress.md`. If any prerequisite is below level 1, the candidate is
+   **blocked** — reroute to train the missing prerequisite first (pick the earliest unmet prerequisite and treat *it*
+   as the candidate, recursing if needed). Only proceed with the candidate once every prerequisite is at level ≥ 1.
+4. Consult `problem-bank.md` to pick a specific problem at the right level for the (possibly-rerouted) concept. Prefer
+   problems from the bank over inventing new ones. If the user has already solved all bank problems at that level,
+   pick the next available or create a variation.
+5. **Check problem-level prerequisites.** If the chosen problem depends on any concept currently below level 1 (other
+   than the one being taught), do NOT use it — either pick a simpler problem or invent a warmup that isolates the new
+   concept. See "Teaching New Concepts (Level 0)" above.
+5. **For level 0 problems, introduce the concept** in the problem file: a short explanation of the data structure /
+   technique (what it is, what it guarantees, basic operations) before the problem statement. The first problem on a
+   new concept should exercise raw mechanics (construction, insertion, traversal), not a clever application.
+6. Save it to `problems/NNN.md` with the concept noted.
+7. Update `current.md` to point to it.
+8. Write the problem template into `main.go` and present it.
 
 ## Solving a Specific Problem
 

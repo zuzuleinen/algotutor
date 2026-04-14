@@ -13,7 +13,6 @@
 | stacks | 0 |
 | queues | 0 |
 | linked-lists | 0 |
-| heaps | 0 |
 | sorting | 0 |
 | binary-search | 0 |
 | two-pointers | 0 |
@@ -22,6 +21,7 @@
 | bit-manipulation | 0 |
 | recursion | 0 |
 | trees | 0 |
+| heaps | 0 |
 | tries | 0 |
 | graphs | 0 |
 | topological-sort | 0 |
