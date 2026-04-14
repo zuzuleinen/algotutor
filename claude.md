@@ -109,11 +109,12 @@ When the user says **"check"**:
 
 ## Scaffolding Flow
 When the user says **"I don't know"**:
-1. Break the current problem into a simpler sub-problem.
-2. Save the sub-problem as a new entry (e.g. `003a.md`, `003b.md`).
-3. Update `current.md` to point to the sub-problem.
-4. Keep going simpler until the user can solve it.
-5. Once solved, step back up toward the original problem.
+1. Read `main.go` first to see what the user has written so far. Use their partial attempt to identify exactly where they got stuck, and tailor the sub-problem to that specific gap.
+2. Break the current problem into a simpler sub-problem targeting the identified gap.
+3. Save the sub-problem as a new entry (e.g. `003a.md`, `003b.md`).
+4. Update `current.md` to point to the sub-problem.
+5. Keep going simpler until the user can solve it.
+6. Once solved, step back up toward the original problem.
 
 ## Rules
 - Never give hints unless the user asks.
