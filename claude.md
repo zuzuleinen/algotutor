@@ -9,6 +9,7 @@
 - `progress.template.md` — blank progress table (all zeros), used for initialization.
 - `cards.json` — spaced repetition review cards (created automatically during practice).
 - `cmd/review/` — the review TUI program (run with `go run ./cmd/review`).
+- `problem-bank.md` — curated problem bank organized by concept and level.
 - `claude.md` — this file.
 
 ## Initialization
@@ -107,7 +108,9 @@ When the user says **"train"**:
 1. Read `progress.md` to see concept levels.
 2. Pick the concept to train: the earliest concept in the list that is below level 3, prioritizing concepts at level 0
    first, then level 1, then level 2.
-3. Generate a problem appropriate for the user's current level in that concept.
+3. Consult `problem-bank.md` to pick a specific problem at the right level for that concept. Prefer problems from the
+   bank over inventing new ones. If the user has already solved all bank problems at that level, pick the next available
+   or create a variation.
 4. Save it to `problems/NNN.md` with the concept noted.
 5. Update `current.md` to point to it.
 6. Write the problem template into `main.go` and present it.
@@ -116,10 +119,12 @@ When the user says **"train"**:
 
 When the user says **"I want to solve [problem name]"**:
 
-1. Create the problem at the right difficulty level.
-2. Save it to `problems/NNN.md` with status `pending`.
-3. Update `current.md` to point to it.
-4. Write the problem template into `main.go` and present it.
+1. Look up the problem in `problem-bank.md` (by name). Use that as the source for the problem statement, adapting it
+   to Go.
+2. Create the problem at the right difficulty level.
+3. Save it to `problems/NNN.md` with status `pending`.
+4. Update `current.md` to point to it.
+5. Write the problem template into `main.go` and present it.
 
 ## Checking Flow
 
