@@ -1,19 +1,23 @@
 # algotutor
 
-An AI-powered algorithmic training system. Open a Claude Code session in this directory, type `train`, and start solving problems.
+An AI-powered algorithmic training system. Open a Claude Code session in this directory, type `train`, and start solving
+problems.
 
 ## How it works
 
-Claude acts as a tutor that generates progressively harder algorithm problems in Go. It tracks your skill level across 32 concepts — from arrays and strings up through dynamic programming and system design — and picks the next problem based on where you are.
+Claude acts as a tutor that generates progressively harder algorithm problems in Go. It tracks your skill level across
+32 concepts — from arrays and strings up through dynamic programming and system design — and picks the next problem
+based on where you are.
 
 ### Commands
 
-| Command | What it does |
-|---|---|
-| `train` | Get the next problem based on your progress |
-| `check` | Submit your solution for evaluation |
-| `I don't know` | Break the problem into simpler sub-problems |
-| `I want to solve [problem name]` | Request a specific problem |
+| Command                          | What it does                                |
+|----------------------------------|---------------------------------------------|
+| `train`                          | Get the next problem based on your progress |
+| `check`                          | Submit your solution for evaluation         |
+| `I don't know`                   | Break the problem into simpler sub-problems |
+| `I want to solve [problem name]` | Request a specific problem                  |
+| `review`                         | Check if you have cards due for review      |
 
 ### Concepts covered
 
@@ -27,7 +31,18 @@ Claude acts as a tutor that generates progressively harder algorithm problems in
 
 **Graph Algorithms** — graphs, topological sort, union-find, shortest path
 
-**Advanced Techniques** — greedy, intervals, backtracking, divide and conquer, dynamic programming, monotonic stacks, design
+**Advanced Techniques** — greedy, intervals, backtracking, divide and conquer, dynamic programming, monotonic stacks,
+design
+
+### Spaced repetition review
+
+As you solve problems, Claude automatically creates review cards capturing what you learned — algorithmic patterns, Go
+syntax, data structure properties. Cards follow
+the [SuperMemo 20 Rules for effective memorization](https://www.supermemo.com/en/blog/twenty-rules-of-formulating-knowledge).
+
+Run `make review` (or `go run ./cmd/review`) to start an Anki-style review session. The review TUI uses
+the [FSRS](https://github.com/open-spaced-repetition/go-fsrs) algorithm to schedule cards. Rate each card 1–4 (
+Again/Hard/Good/Easy) and it will reappear at the optimal interval.
 
 ## Requirements
 
