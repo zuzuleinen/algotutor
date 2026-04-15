@@ -44,9 +44,9 @@ Run `make review` (or `go run ./cmd/review`) to start an Anki-style review sessi
 the [FSRS](https://github.com/open-spaced-repetition/go-fsrs) algorithm to schedule cards. Rate each card 1–4 (
 Again/Hard/Good/Easy) and it will reappear at the optimal interval.
 
-![img.png](img.png)
+<img src="img.png" width="600" alt="img.png">
 
-![img_1.png](img_1.png)
+<img src="img_1.png" width="600" alt="img_1.png">
 
 ## Requirements
 
