@@ -14,7 +14,7 @@ func (m Model) viewWelcome() string {
 	total, due, newCount := m.store.Stats(now)
 	byConcept := m.store.DueByConcept(now)
 
-	title := titleStyle.Render("AlgoTutor Review")
+	title := titleStyle.Render("ALGOTUTOR REVIEW")
 
 	statsLine := subtitleStyle.Render(fmt.Sprintf("%d cards due today", due))
 	totalLine := mutedStyle.Render(fmt.Sprintf("%d total cards  ·  %d new", total, newCount))

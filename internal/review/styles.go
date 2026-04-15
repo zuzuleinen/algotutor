@@ -3,14 +3,15 @@ package review
 import "github.com/charmbracelet/lipgloss"
 
 var (
-	accentColor  = lipgloss.Color("99")
+	accentColor  = lipgloss.Color("215")
+	borderColor  = lipgloss.Color("61")
 	successColor = lipgloss.Color("78")
 	warningColor = lipgloss.Color("221")
 	dangerColor  = lipgloss.Color("203")
 	mutedColor   = lipgloss.Color("241")
 	brightColor  = lipgloss.Color("255")
 	easyColor    = lipgloss.Color("117")
-	codeColor    = lipgloss.Color("215")
+	codeColor    = lipgloss.Color("180")
 
 	titleStyle = lipgloss.NewStyle().
 			Bold(true).
@@ -29,7 +30,7 @@ var (
 
 	cardStyle = lipgloss.NewStyle().
 			Border(lipgloss.RoundedBorder()).
-			BorderForeground(accentColor).
+			BorderForeground(borderColor).
 			Padding(1, 3)
 
 	questionStyle = lipgloss.NewStyle().
