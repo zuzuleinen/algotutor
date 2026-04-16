@@ -18,6 +18,7 @@ based on where you are.
 | `I don't know`                   | Break the problem into simpler sub-problems |
 | `I want to solve [problem name]` | Request a specific problem                  |
 | `review`                         | Check if you have cards due for review      |
+| `mistakes`                       | Show your recurring-error report            |
 
 ### Concepts covered
 
@@ -47,6 +48,19 @@ Again/Hard/Good/Easy) and it will reappear at the optimal interval.
 <img src="img.png" width="600" alt="img.png">
 
 <img src="img_1.png" width="600" alt="img_1.png">
+
+### Mistake tracking
+
+Every failed `check` is tagged with a fixed error taxonomy (off-by-one, forgotten-update, missed base case, empty-input
+missed, wrong-algorithm, and ~25 more) and logged to `mistakes.json`. Gaps that would otherwise evaporate at the end of
+a session stick around as data.
+
+When any category accumulates ≥ 3 unresolved entries in your recent history, `train` stops picking a new concept and
+instead hands you a tiny single-category drill — five-line problems stripped of surrounding concept, aimed at exactly
+that failure mode. Solve it and the oldest open mistakes in that category close out.
+
+Every 7 days, `train` prints a short digest of your top recurring categories. Run `mistakes` any time to see the full
+report on demand. Drills do not raise concept levels — their only effect is to patch the pattern.
 
 ## Requirements
 

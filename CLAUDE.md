@@ -8,6 +8,7 @@
 - `progress.md` — tracks the user's level (0–N) for each concept.
 - `progress.template.md` — blank progress table (all zeros), used for initialization.
 - `cards.json` — spaced repetition review cards (created automatically during practice).
+- `mistakes.json` — log of recurring error categories (created automatically during practice).
 - `cmd/review/` — the review TUI program (run with `go run ./cmd/review`).
 - `problem-bank.md` — curated problem bank organized by concept and level.
 - `claude.md` — this file.
@@ -139,7 +140,20 @@ never have heard of it before. Do not jump straight to a LeetCode-style problem.
 
 ## Training Flow
 
-When the user says **"train"**:
+When the user says **"train"**, first run the **mistake-tracking preamble**, then fall through to the picker:
+
+**Preamble (may preempt the picker):**
+
+- **Drill check.** Read `mistakes.json` (treat as `{"digest_at": null, "mistakes": []}` if missing). Take the last 20
+  entries with `resolved_at: null`. Group by `category`. If any category has ≥ 3 unresolved entries in that window,
+  generate a **single-category drill** for it (see "Mistake Tracking"), save it as the current problem, write the
+  template into `main.go`, and present it — **skip the picker below for this turn.** Tell the user in one sentence:
+  "You've hit `<category>` <N>× recently — drill first."
+- **Digest.** Else, if `digest_at` is null or older than 7 days and there is at least one unresolved mistake, print a
+  short digest (top 3 unresolved categories over the last 30 days with counts + one-sentence recommendation), update
+  `digest_at` to the current RFC3339 timestamp, then continue to the picker.
+
+**Picker (normal training):**
 
 1. Read `progress.md` to see concept levels.
 2. Pick the **candidate** concept: the earliest concept in the list that is below level 3, prioritizing concepts at
@@ -188,11 +202,15 @@ When the user says **"check"**:
    or they say "I don't know" to get a scaffolded easier version. There is no third door.
 6. If correct (and algorithm matches): mark the problem as `solved` in `problems/NNN.md`, update the concept
    level in `progress.md`, congratulate briefly, then create spaced repetition cards (see "Spaced Repetition
-   Cards" section below).
+   Cards" section below) and, for each mistake category this problem *could have* exercised, mark the most
+   recent unresolved entry of that category in `mistakes.json` as resolved (see "Mistake Tracking"). Drills
+   are an exception — see the drill rules for how they resolve mistakes and skip level promotion.
 7. If incorrect: **name what is wrong** (e.g. "your loop condition is off by one", "you're not
    updating the sum") but **never supply the fix directly** — no corrected expressions, no formulas, no
    rewritten lines. If the user says "I don't know" in response, route them to a scaffolded sub-problem
    that, once solved, will make the fix obvious. The user must derive every expression themselves.
+   **Log the mistake** in `mistakes.json` — one entry per distinct error category, max three per failed
+   check, using the fixed taxonomy (see "Mistake Tracking").
 8. **Nudge toward cleaner solutions.** If the user's solution is correct but clearly more complicated than it
    needs to be (extra branches, redundant variables, special cases that a single expression would cover,
    unnecessary helper functions), say so and nudge them toward the cleaner form *before* marking solved and
@@ -219,7 +237,9 @@ When the user says **"I don't know"**:
 5. Update `current.md` to point to the sub-problem.
 6. Keep going simpler until the user can solve it.
 7. Once solved, create spaced repetition cards for the gap that was identified (see "Spaced Repetition Cards" section
-   below), then step back up toward the original problem.
+   below), log the identified gap in `mistakes.json` with `trigger: "scaffold"` if no mistake for the same parent
+   problem + category was already logged in this attempt chain (see "Mistake Tracking"), then step back up toward the
+   original problem.
 
 ### No giveaways in scaffolding
 
@@ -343,6 +363,12 @@ reviewed via `go run ./cmd/review`.
 
 ### Card Formulation Rules (SuperMemo 20 Rules)
 
+- **Application over definitions.** Cards must fire at the *moment of use*, not as trivia. "What does `prefix[i]`
+  store?" is never asked mid-problem, so recalling it won't transfer to solving one. Test what the user must
+  *produce*: cloze the formula (`prefix[j] - prefix[___]`), test problem-recognition ("many range-sum queries on a
+  static array → what precomputation?"), test edge cases ("what breaks when `i == 0`?"), and test non-obvious
+  reasoning when it's load-bearing (why the order of two assignments matters). Avoid pure definitions of named
+  variables, restatements of the concept's tagline, and enumeration lists.
 - **One fact per card.** Never combine multiple facts. Split "What is a stack and how do you push?" into two cards.
 - **Minimum information.** Keep both sides as short as possible while remaining unambiguous.
 - **Cloze deletions for code.** Use fill-in-the-blank for syntax: front = "Pop from a Go slice stack:
@@ -387,6 +413,155 @@ reviewed via `go run ./cmd/review`.
 
 Before creating cards, scan existing cards in `cards.json`. Do not create a card if an existing card already covers the
 same fact (same question or equivalent knowledge). It is fine to create cards on the same concept from different angles.
+
+## Mistake Tracking
+
+During practice, log recurring error categories to `mistakes.json` so that drills can target them. Without this, every
+failed problem is a one-shot lesson whose signal evaporates after the session. With it, the user's weakest patterns
+surface and can be isolated before they compound into bad habits.
+
+### `mistakes.json` format
+
+If the file doesn't exist, treat it as `{"digest_at": null, "mistakes": []}` and create it on first write.
+
+Each entry:
+
+```json
+{
+  "id": "m_<unix_timestamp>_<seq>",
+  "timestamp": "<RFC3339>",
+  "problem": "007",
+  "concept": "binary-search",
+  "category": "off-by-one",
+  "note": "loop condition stayed true at equality; no contraction",
+  "trigger": "check",
+  "resolved_at": null
+}
+```
+
+Fields:
+
+- `id` — unique, `m_<unix_timestamp>_<seq>` (bump `seq` to disambiguate same-second logs).
+- `timestamp` — RFC3339 timestamp when the mistake was observed.
+- `problem` — problem number; for `trigger: "scaffold"` this is the *parent* problem, not the sub-problem ID.
+- `concept` — the concept being trained at the time of the mistake.
+- `category` — exactly one value from the taxonomy below.
+- `note` — one line, specific to this occurrence, describing *what* went wrong. No code. No formulas.
+- `trigger` — `"check"` (surfaced by a failed `check`) or `"scaffold"` (surfaced while scaffolding).
+- `resolved_at` — `null` until a later clean solve exercises the same category without reproducing it, then set to the
+  RFC3339 timestamp of that resolution.
+
+### Taxonomy
+
+Pick exactly one category per mistake. If nothing fits, use `other` with a specific `note`. If `other` recurs with
+similar notes three times, promote it into a new category and update this list.
+
+**Loops & iteration**
+
+- `off-by-one` — loop bound wrong by 1; slice bound off by 1; `<` vs `<=`.
+- `wrong-loop-bound` — iterating to the wrong endpoint, independent of parity.
+- `forgotten-update` — loop variable, accumulator, or pointer not advanced in the body.
+- `mutation-during-iteration` — modifying the slice/map being iterated.
+- `infinite-loop` — termination condition never reached.
+
+**Initialization & control flow**
+
+- `uninit-accumulator` — sum/count/min/max not initialized, or initialized to the wrong sentinel.
+- `early-return` — returned before finishing the computation.
+- `wrong-return-value` — returned the wrong variable, wrong scope, or wrong type.
+- `wrong-comparison-operator` — `<` vs `<=`, `==` vs `!=`, `>` vs `>=`.
+
+**Recursion**
+
+- `missing-base-case` — recursion never terminates for some input.
+- `wrong-base-case` — returns wrong value at the base.
+- `wrong-recursive-combine` — recurses correctly but combines subresults wrong.
+
+**Indexing**
+
+- `out-of-bounds` — index ≥ length, or negative index.
+- `index-vs-value` — used the index where the value was needed, or vice versa.
+
+**Edge cases**
+
+- `empty-input-missed` — didn't handle empty slice / nil / empty string.
+- `single-element-missed` — didn't handle `len == 1` or single-node case.
+- `duplicates-missed` — algorithm breaks on repeated values.
+- `negative-input-missed` — algorithm assumed non-negative input.
+- `overflow-missed` — didn't consider integer overflow for large inputs.
+
+**Go mechanics**
+
+- `pointer-vs-value-receiver` — mutation via value receiver, or pointer where unnecessary.
+- `slice-aliasing` — two slices share backing array; modification leaks.
+- `map-iteration-order` — assumed deterministic map iteration order.
+- `nil-map-write` — wrote to an unallocated map.
+- `shadowed-variable` — `:=` inside a block shadowed an outer variable.
+
+**Algorithmic**
+
+- `wrong-algorithm` — problem named algorithm X; user implemented Y.
+- `wrong-complexity` — stated complexity is wrong (when asked).
+- `brute-force-when-technique-expected` — problem was training a specific technique; user brute-forced.
+
+**Other**
+
+- `misread-problem` — solved a different problem than the one stated.
+- `syntax` — persistent Go syntax errors (not typos); log only on repeat across sessions.
+- `other` — last resort.
+
+### When to log
+
+**On `check` (incorrect):** log one entry per *distinct* error category observed, up to three per failed check. Pick
+the load-bearing categories; do not stretch to fill. Use `trigger: "check"`.
+
+**On scaffolding:** when you create a sub-problem and can name the gap as one taxonomy category, log one entry with
+`trigger: "scaffold"`.
+
+**Dedupe within an attempt chain:** if a mistake for the same problem + category was already logged in the current
+session, do not re-log. Do log if a scaffold surfaces a *different* category than the earlier check did.
+
+**Do NOT log:**
+
+- Typos or momentary syntax slips (missing brace, missing import) — unless they keep recurring across sessions, then
+  log as `syntax`.
+- User asking a clarifying question or saying "I don't know" without having attempted code.
+- A first-try clean solve — nothing went wrong.
+
+### When to resolve
+
+After a successful `check` on a problem that *could have* exercised a category (e.g. `off-by-one` only resolves on
+problems with a loop; `duplicates-missed` only resolves on problems whose inputs actually had duplicates), mark the
+most recent unresolved entry of that category as `resolved_at: <now>`. Resolve at most one entry per category per
+solve. If unsure whether the current problem exercised the category, leave it open — do not auto-resolve.
+
+### Drill rules
+
+When the `train` preamble triggers a drill:
+
+- **Single-category focus.** A drill tests exactly one category. Do not combine.
+- **Stripped to mechanics.** No larger concept on top — raw mechanics only. Prefer problems that fit in five lines of
+  solution code. The point is to force the user to confront the specific failure mode with nothing to hide behind.
+- **Obvious oracle.** The examples should make the right answer verifiable at a glance.
+- **Frontmatter.** The problem file starts with `kind: drill` and `drill_category: <category>` so drills are
+  identifiable later.
+- **No promotion.** Solving a drill does NOT raise any concept level in `progress.md`. Its only effect is to resolve
+  up to 3 open mistakes of the drilled category (oldest first) and to teach the pattern.
+- **No scaffolding on a drill.** If the user says "I don't know" on a drill, replace the current drill with a simpler
+  drill in the same category — do not spawn `NNNa.md`. Drills are already the floor.
+- **One drill per `train` turn.** After the user solves (or replaces) the drill, the next `train` re-runs the preamble
+  from scratch — it may pick another drill or return to normal training.
+
+## Mistakes Command
+
+When the user says **"mistakes"**:
+
+1. If `mistakes.json` doesn't exist or has no entries, say "No mistakes logged yet."
+2. Otherwise, print an on-demand report:
+   - Top 5 categories by unresolved count (over all time).
+   - Total unresolved / total logged.
+   - Most recent 5 entries, one line each: `<timestamp> <category> <problem> — <note>`.
+3. Do NOT update `digest_at` — this view is separate from the weekly digest gate.
 
 ## Review Command
 
