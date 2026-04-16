@@ -13,7 +13,7 @@ based on where you are.
 
 | Command                          | What it does                                |
 |----------------------------------|---------------------------------------------|
-| `train`                          | Get the next problem based on your progress |
+| `train`                          | Get the next problem — drill, re-solve, mix, or new, based on state |
 | `check`                          | Submit your solution for evaluation         |
 | `I don't know`                   | Break the problem into simpler sub-problems |
 | `I want to solve [problem name]` | Request a specific problem                  |
@@ -61,6 +61,31 @@ that failure mode. Solve it and the oldest open mistakes in that category close 
 
 Every 7 days, `train` prints a short digest of your top recurring categories. Run `mistakes` any time to see the full
 report on demand. Drills do not raise concept levels — their only effect is to patch the pattern.
+
+### Re-solve
+
+Solving a problem once isn't mastery. Every successfully solved problem enters a Leitner schedule (7 / 21 / 60 / 180 /
+365 days) in `resolve.json`. When a problem comes due, `train` hands it back with a fresh `main.go` template — your
+previous solution is hidden — and you re-solve it from scratch.
+
+A clean re-solve pushes the next due date further out. Needing scaffolding holds the step. Giving up (`give up`,
+`fail this`, `skip re-solve`) resets the ladder, and **two consecutive failed re-solves on the same concept** drop
+its level by one. Re-solves preempt new training the moment anything is due.
+
+### Mix
+
+Research shows interleaved practice beats grinding one concept at a time. Once you have 5+ concepts at level 2+ and
+at least 3 have gone cold (untouched for 14+ days), `train` starts a mix session — 3 problems from 3 different
+concepts, one after the other, each drawn one level below your working level so the context switching itself is the
+challenge.
+
+Mix doesn't raise concept levels. It updates a per-concept retention score in `retention.json` — clean mix solves push
+retention up (+0.2), failures push it down (−0.3), and retention decays 0.1 per 14 days a concept sits untouched. Low
+retention shows up as a nudge on `train`.
+
+Mix sessions trigger at most once a week and run one at a time — there's no command to force one. Inside a mix,
+scaffolding and `I don't know` work normally; say `skip` to drop a problem and move on, or `end mix` to abandon the
+session.
 
 ## Requirements
 

@@ -18,7 +18,6 @@
 | two-pointers | 0 |
 | sliding-window | 0 |
 | prefix-sums | 0 |
-| bit-manipulation | 0 |
 | recursion | 0 |
 | trees | 0 |
 | heaps | 0 |
@@ -34,3 +33,4 @@
 | dynamic-programming | 0 |
 | monotonic-stacks | 0 |
 | design | 0 |
+| bit-manipulation | 0 |
