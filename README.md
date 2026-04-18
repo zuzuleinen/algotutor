@@ -1,6 +1,6 @@
 # algotutor
 
-An AI-powered algorithmic training system. Open a Claude Code session in this directory, type `train`, and start solving
+An AI-powered algorithmic training system for Go developers. Open a Claude Code session in this directory, type `train`, and start solving
 problems.
 
 ## How it works
