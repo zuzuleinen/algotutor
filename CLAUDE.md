@@ -174,7 +174,7 @@ When the user says **"check"**:
    - `NNN:resolve` — re-solve check; steps 6 and 7 branch per `docs/resolve.md` → Outcomes.
    - `NNN:mix` — mix check; steps 6 and 7 branch per `docs/mix.md` → Mix problem outcomes.
 2. Read `problems/NNN.md` for the expected behavior.
-3. Evaluate the user's solution in `main.go`.
+3. **Re-read `main.go` fresh** — always call Read on `main.go` now, even if it was read earlier in this conversation. The user may have edited it between turns.
 4. **Algorithm fidelity.** If the problem names a specific algorithm or data structure (e.g. "bubble sort",
    "implement using a stack", "recursive solution"), the user's solution MUST implement *that* algorithm or
    technique. Correct output via a different algorithm does NOT count as solved — that's teaching the wrong
