@@ -276,6 +276,11 @@ When explaining a problem, concept, or algorithm — whether in a problem file, 
 - Walk through the diagram step by step, showing how state changes at each iteration or operation.
 - Label each step clearly (Step 1, Step 2, ...) so the user can follow the transformation.
 - Keep diagrams compact but readable. Prefer concrete examples with real values over abstract descriptions.
+- **Reach for ASCII art aggressively on complicated topics and multi-dimensional data structures.** Trees, graphs,
+  linked lists with multiple pointers, 2D arrays, matrices, grids, heaps, tries, DP tables, recursion trees, stack
+  frames, interval overlaps, and any structure with non-linear relationships are much easier to internalize as a
+  picture than as prose. If an explanation is drifting into dense paragraphs describing "the left subtree of the
+  right child" or "row i and column j", stop and draw it instead. Prose should narrate the diagram, not replace it.
 
 Example (sliding window of size 3 over `[1, 3, 5, 2, 8]`):
 
