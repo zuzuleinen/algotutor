@@ -24,6 +24,9 @@ Detail files in `docs/` (read these when the relevant flow fires):
 - `docs/mistakes.md` — `mistakes.json` schema, full taxonomy, drill rules.
 - `docs/resolve.md` — re-solve mode: ladder, outcomes, `resolve.json` schema.
 - `docs/mix.md` — mix mode: retention, timing, outcomes, `mix.json` schema.
+- `docs/go-gotchas.md` — Go semantic traps (bytes vs runes, slice aliasing, nil
+  maps, integer division on negatives, etc.). **Consult before writing any
+  problem statement, example, or nudge that touches the affected mechanic.**
 
 ## Initialization
 
@@ -212,6 +215,15 @@ When the user says **"check"**:
    solution, volunteer the nudge — they often don't know what they don't know. But keep it short: name the
    smell, ask the leading question, stop. Do not lecture.
 
+   **Verify the nudge is actually simpler AND correct under the stated contract.** Before suggesting the user
+   replace their solution with a "cleaner" form, confirm the cleaner form handles every input the problem
+   allows. If the user's solution is more general (handles Unicode, negatives, empties, duplicates, large
+   inputs) and the simpler form you're about to suggest only works in a narrower domain, **do not nudge** —
+   either accept their solution as-is, or revise the problem to state the narrower contract first. Consult
+   `docs/go-gotchas.md` before nudging on anything that touches strings/bytes/runes, slice aliasing, maps,
+   integer division, or any other Go trap listed there. Nudging the user toward a narrower-but-buggier
+   solution is worse than no nudge at all — it bakes a latent bug into their mental model.
+
 ## Scaffolding Flow
 
 When the user says **"I don't know"**:
@@ -280,6 +292,15 @@ This applies to concept introductions (level 0), scaffolding explanations, and a
 
 ## Rules
 
+- **State every contract explicitly in the problem file.** If the solution depends on the input domain —
+  ASCII-only vs arbitrary Unicode, non-empty vs may-be-empty, non-negative vs signed, sorted vs unsorted,
+  bounded vs unbounded, no-duplicates vs duplicates-allowed — say so in the problem statement. Missing
+  contracts are how bad tutoring gets baked in: the user writes the general solution, you call it
+  "overcomplicated", and they internalize a narrower pattern that quietly breaks on real inputs.
+- **Precision over brevity in explanations.** Never conflate types or abstractions to sound simpler.
+  "`s[i]` is the i-th character" is wrong in Go (it's a byte) and teaches a UTF-8 bug the user will carry
+  forever. When the accurate statement takes a sentence more, spend the sentence. Consult
+  `docs/go-gotchas.md` before writing about anything on that list.
 - Never give hints unless the user asks.
 - **Never give direct answers, fixes, or formulas.** When something is wrong, name the problem (e.g. "off by
   one", "variable not updating") but never supply the corrected expression or code. If the user can't fix it,
