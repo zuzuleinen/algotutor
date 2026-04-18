@@ -336,3 +336,34 @@ When the user says **"review"**:
 2. If no cards exist, tell the user: "No review cards yet. Solve some problems first!"
 3. If cards exist, tell the user to start their review session: "Run `go run ./cmd/review` to start your review
    session."
+
+## Reset Command
+
+When the user says **"reset"**:
+
+1. **Do NOT touch any files yet.** Prompt the user for confirmation with an explicit warning: "This will wipe ALL
+   your progress — every concept level, every solved problem, every review card, every mistake, every re-solve and
+   mix schedule, and your current problem. This cannot be undone. Type `confirm reset` to proceed, or anything else
+   to cancel."
+2. Only proceed if the user's next message is exactly `confirm reset` (case-insensitive, trimmed). Any other
+   response — including "yes", "y", "ok", "do it" — cancels the reset and you report "Reset cancelled." No files
+   change.
+3. On confirmation, perform the full reset:
+   - Overwrite `progress.md` with the contents of `progress.template.md` (all concepts at level 0).
+   - Empty `current.md` (zero bytes).
+   - Delete every file inside `problems/` (keep the directory itself).
+   - Delete `cards.json`, `mistakes.json`, `resolve.json`, `mix.json`, and `retention.json` if they exist. Missing
+     files are fine — skip silently.
+   - Overwrite `main.go` with a minimal empty template:
+     ```go
+     package main
+
+     import "fmt"
+
+     func main() {
+     	fmt.Println("ready")
+     }
+     ```
+4. Confirm completion in one sentence: "Reset complete — all progress wiped. Say `train` to start over from zero."
+5. Never reset `progress.template.md`, `problem-bank.md`, `CLAUDE.md`, `docs/`, or `cmd/` — those are project
+   fixtures, not user state.
