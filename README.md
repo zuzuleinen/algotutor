@@ -25,7 +25,7 @@ are all built in.
 
 <div align="center">
 
-<img src="img.png" width="700" alt="algotutor in action"/>
+<img src="img_2.png" width="700" alt="algotutor in action"/>
 
 </div>
 
