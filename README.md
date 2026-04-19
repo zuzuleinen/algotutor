@@ -1,7 +1,29 @@
-# algotutor
+<h2 align="center">
+    algotutor
+    <br>
+    AI-powered algorithmic training for Go developers
+</h2>
 
-An AI-powered algorithmic training system for Go developers. Open a Claude Code session in this directory, type `train`, and start solving
-problems.
+<div align="center">
+
+[![Made with Claude Code](https://img.shields.io/badge/Made%20with-Claude%20Code-FA9BFA?style=flat)](https://docs.anthropic.com/en/docs/claude-code)
+[![Go](https://img.shields.io/badge/Go-1.26-4B78E6?style=flat&logo=go&logoColor=white)](https://go.dev/)
+[![Spaced repetition](https://img.shields.io/badge/Review-FSRS-73DC8C?style=flat)](https://github.com/open-spaced-repetition/go-fsrs)
+
+</div>
+
+algotutor turns a Claude Code session into a personal algorithms tutor.
+Open a session in this directory, type `train`, and start solving Go problems.
+It tracks your skill level across 32 concepts — from arrays and strings up through
+dynamic programming and system design — and picks the next problem based on where you are.
+Spaced-repetition review, mistake tracking, re-solves, and interleaved mix sessions
+are all built in.
+
+<div align="center">
+
+<img src="img.png" width="700" alt="algotutor in action"/>
+
+</div>
 
 ## How it works
 
@@ -44,8 +66,6 @@ the [SuperMemo 20 Rules for effective memorization](https://www.supermemo.com/en
 Run `make review` (or `go run ./cmd/review`) to start an Anki-style review session. The review TUI uses
 the [FSRS](https://github.com/open-spaced-repetition/go-fsrs) algorithm to schedule cards. Rate each card 1–4 (
 Again/Hard/Good/Easy) and it will reappear at the optimal interval.
-
-<img src="img.png" width="600" alt="img.png">
 
 <img src="img_1.png" width="600" alt="img_1.png">
 
