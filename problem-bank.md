@@ -12,6 +12,22 @@ When training, prefer problems from this bank at the appropriate level. Adapt th
 
 ---
 
+## complexity-analysis
+
+### Level 0
+- Count Elements: implement a linear scan and identify its Big-O in a comment
+- Has Duplicate (two versions): implement O(n²) brute force, then O(n) with a map — explain the difference
+
+### Level 1
+- Space Complexity: compare recursive vs iterative Fibonacci — which uses more memory and why?
+- Constraint-Driven Choice: given n ≤ 10^8, implement a solution that finishes in time and justify your Big-O
+
+### Level 2
+- Nested Loop Analysis: derive Big-O of a function with a dependent inner loop (e.g. j starts at i)
+- Recursive Complexity: derive the time complexity of binary search without running it
+
+---
+
 ## arrays
 
 ### Level 0
@@ -547,6 +563,22 @@ When training, prefer problems from this bank at the appropriate level. Adapt th
 
 ---
 
+## graph-modeling
+
+### Level 0
+- Dependency Graph: convert a course prerequisite list into an adjacency list (no traversal yet — just the representation)
+- Grid as Graph: given a 2D grid, define what nodes and edges are and implement the adjacency representation
+
+### Level 1
+- Word Ladder Modeling: given the problem description, define nodes, edges, and graph type before writing any BFS
+- Equation Graph: Evaluate Division — model variables as nodes and ratios as weighted directed edges
+
+### Level 2
+- Implicit State Graph: model a word transformation puzzle where each state is a node and each valid mutation is an edge
+- Bipartite Setup: given a conflict/coloring problem, model it as a graph and argue why bipartite detection applies
+
+---
+
 ## graphs
 
 ### Level 0
@@ -724,7 +756,7 @@ When training, prefer problems from this bank at the appropriate level. Adapt th
 
 ---
 
-## dynamic-programming
+## dynamic-programming-1d
 
 ### Level 0
 - Climbing Stairs — Easy
@@ -735,37 +767,51 @@ When training, prefer problems from this bank at the appropriate level. Adapt th
 - Maximum Subarray / Kadane's — Medium
 - Max Subset Sum No Adjacent — Medium
 - Number Of Ways To Make Change — Medium
-- Number Of Ways To Traverse Graph — Medium
 
 ### Level 2
 - Coin Change — Medium
 - Longest Increasing Subsequence — Medium
 - Word Break — Medium
-- Triangle — Medium
-- Minimum Path Sum — Medium
-- Unique Paths II — Medium
-- Longest Palindromic Substring — Medium
 - Min Number Of Coins For Change — Medium
-- Levenshtein Distance — Medium
 
 ### Level 3
-- Edit Distance — Medium
-- Interleaving String — Medium
-- Maximal Square — Medium
-- Maximum Sum Circular Subarray — Medium
 - Knapsack Problem — Hard
-- Disk Stacking — Hard
-- Water Area — Hard
 - Min Number Of Jumps — Hard
 - Max Sum Increasing Subsequence — Hard
-- Longest Common Subsequence — Hard
 
 ### Level 4+
 - Best Time to Buy and Sell Stock III — Hard
 - Best Time to Buy and Sell Stock IV — Hard
-- Maximize Expression — Hard
-- Juice Bottling — Hard
 - Max Profit With K Transactions — Very Hard
+- Juice Bottling — Hard
+
+---
+
+## dynamic-programming-2d
+
+### Level 0
+- Minimum Path Sum — Medium
+- Unique Paths II — Medium
+
+### Level 1
+- Triangle — Medium
+- Number Of Ways To Traverse Graph — Medium
+- Levenshtein Distance — Medium
+
+### Level 2
+- Edit Distance — Medium
+- Interleaving String — Medium
+- Maximal Square — Medium
+- Longest Palindromic Substring — Medium
+
+### Level 3
+- Longest Common Subsequence — Hard
+- Maximum Sum Circular Subarray — Medium
+- Disk Stacking — Hard
+- Water Area — Hard
+
+### Level 4+
+- Maximize Expression — Hard
 - Palindrome Partitioning Min Cuts — Very Hard
 - Square of Zeroes — Very Hard
 

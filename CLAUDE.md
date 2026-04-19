@@ -77,6 +77,10 @@ never have heard of it before. Do not jump straight to a LeetCode-style problem.
 - **Introduce the concept first.** Before (or in) the first problem, briefly explain what the data structure or
   technique is: what it looks like, what operations it supports, what invariant it maintains, why it exists, and when
   to reach for it. A couple of sentences + a tiny concrete example is enough.
+- **Name the recognition cue explicitly.** When introducing any concept, state the problem signal that tells you to
+  reach for it — e.g., "you reach for sliding window when you see a contiguous subarray or substring problem where
+  you're optimizing over all windows." One sentence. This is how pattern recognition gets trained implicitly across
+  every concept rather than as a separate topic.
 - **Use ASCII art to show structure.** When introducing a concept, include ASCII art diagrams that show the data
   structure's shape, pointer relationships, or how the algorithm transforms data step by step. Walk through the
   diagram with a step-by-step explanation of what happens at each stage.
