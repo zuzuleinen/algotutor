@@ -16,10 +16,11 @@
 
 </div>
 
-algotutor turns a Claude Code session into a personal algorithms tutor.
+**algotutor** turns a Claude Code session into a personal algorithms tutor.
 Open a session in this directory, type `train`, and start solving Go problems.
 It tracks your skill level across 32 concepts — from arrays and strings up through
-dynamic programming and system design — and picks the next problem based on where you are.
+dynamic programming and design — and picks the next problem based on where you are.
+
 Spaced-repetition review, mistake tracking, re-solves, and interleaved mix sessions
 are all built in.
 
@@ -32,7 +33,7 @@ are all built in.
 ## How it works
 
 Claude acts as a tutor that generates progressively harder algorithm problems in Go. It tracks your skill level across
-32 concepts — from arrays and strings up through dynamic programming and system design — and picks the next problem
+32 concepts — from arrays and strings up through dynamic programming and design — and picks the next problem
 based on where you are.
 
 Read more
