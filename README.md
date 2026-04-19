@@ -35,16 +35,19 @@ Claude acts as a tutor that generates progressively harder algorithm problems in
 32 concepts — from arrays and strings up through dynamic programming and system design — and picks the next problem
 based on where you are.
 
+Read more
+details: [algotutor: using AI to actually get better at algorithms](https://medium.com/@andreiboar/algotutor-using-ai-to-actually-get-better-at-algorithms-a2b7b96e054a)
+
 ### Commands
 
-| Command                          | What it does                                |
-|----------------------------------|---------------------------------------------|
+| Command                          | What it does                                                        |
+|----------------------------------|---------------------------------------------------------------------|
 | `train`                          | Get the next problem — drill, re-solve, mix, or new, based on state |
-| `check`                          | Submit your solution for evaluation         |
-| `I don't know`                   | Break the problem into simpler sub-problems |
-| `I want to solve [problem name]` | Request a specific problem                  |
-| `review`                         | Check if you have cards due for review      |
-| `mistakes`                       | Show your recurring-error report            |
+| `check`                          | Submit your solution for evaluation                                 |
+| `I don't know`                   | Break the problem into simpler sub-problems                         |
+| `I want to solve [problem name]` | Request a specific problem                                          |
+| `review`                         | Check if you have cards due for review                              |
+| `mistakes`                       | Show your recurring-error report                                    |
 
 ### Concepts covered
 
@@ -110,10 +113,6 @@ retention shows up as a nudge on `train`.
 Mix sessions trigger at most once a week and run one at a time — there's no command to force one. Inside a mix,
 scaffolding and `I don't know` work normally; say `skip` to drop a problem and move on, or `end mix` to abandon the
 session.
-
-## Background
-
-[algotutor: using AI to actually get better at algorithms](https://medium.com/@andreiboar/algotutor-using-ai-to-actually-get-better-at-algorithms-a2b7b96e054a)
 
 ## Requirements
 
