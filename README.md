@@ -139,4 +139,5 @@ The working problem is always inside `main.go`. You can validate with `go run .`
 Try to make as much progress as you can before saying `I don't know`. This way Claude can better assess your gaps and
 missing prerequisites.
 
-It should feel effortful.
+It should feel effortful. Don't be afraid to say `I don't know` multiple times. Practice regularly in sessions of 30-60
+minute.
