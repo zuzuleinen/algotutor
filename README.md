@@ -1,5 +1,9 @@
 <h2 align="center">
-    algotutor
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="logo-dark.svg">
+        <source media="(prefers-color-scheme: light)" srcset="logo-light.svg">
+        <img height="80" alt="algotutor" src="logo.svg">
+    </picture>
     <br>
     AI-powered algorithmic training for Go developers
 </h2>
@@ -106,6 +110,10 @@ retention shows up as a nudge on `train`.
 Mix sessions trigger at most once a week and run one at a time — there's no command to force one. Inside a mix,
 scaffolding and `I don't know` work normally; say `skip` to drop a problem and move on, or `end mix` to abandon the
 session.
+
+## Background
+
+[algotutor: using AI to actually get better at algorithms](https://medium.com/@andreiboar/algotutor-using-ai-to-actually-get-better-at-algorithms-a2b7b96e054a)
 
 ## Requirements
 

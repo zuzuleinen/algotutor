@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 96" width="440" height="96" role="img" aria-label="algotutor">
+  <title>algotutor</title>
+  <g fill="#111418" transform="translate(8,16)">
+    <rect x="0" y="48" width="12" height="16"></rect>
+    <rect x="16" y="36" width="12" height="28"></rect>
+    <rect x="32" y="24" width="12" height="40"></rect>
+    <rect x="48" y="12" width="12" height="52"></rect>
+    <rect x="-2" y="64" width="64" height="2"></rect>
+  </g>
+  <text x="82" y="66" fill="#111418" font-family="&#34;JetBrains Mono&#34;,&#34;IBM Plex Mono&#34;,ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-weight="800" font-size="54" letter-spacing="-1">algotutor</text>
+</svg>
