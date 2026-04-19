@@ -50,20 +50,6 @@ details: [algotutor: using AI to actually get better at algorithms](https://medi
 | `review`                         | Check if you have cards due for review                              |
 | `mistakes`                       | Show your recurring-error report                                    |
 
-### Concepts covered
-
-**Fundamentals** — arrays, strings, loops, nested loops, math
-
-**Core Data Structures** — maps, sets, matrix, stacks, queues, linked lists, heaps
-
-**Core Techniques** — sorting, binary search, two pointers, sliding window, prefix sums, bit manipulation
-
-**Recursion and Trees** — recursion, trees, tries
-
-**Graph Algorithms** — graphs, topological sort, union-find, shortest path
-
-**Advanced Techniques** — greedy, intervals, backtracking, divide and conquer, dynamic programming, monotonic stacks,
-design
 
 ### Spaced repetition review
 
