@@ -50,7 +50,6 @@ details: [algotutor: using AI to actually get better at algorithms](https://medi
 | `review`                         | Check if you have cards due for review                              |
 | `mistakes`                       | Show your recurring-error report                                    |
 
-
 ### Spaced repetition review
 
 As you solve problems, Claude automatically creates review cards capturing what you learned — algorithmic patterns, Go
@@ -124,6 +123,8 @@ The working problem is always inside `main.go`. You can validate with `go run .`
 
 Try to make as much progress as you can before saying `I don't know`. This way Claude can better assess your gaps and
 missing prerequisites.
+
+If you use an IDE with AI auto-completion, disable it.
 
 It should feel effortful. Don't be afraid to say `I don't know` multiple times. Practice regularly in sessions of 30-60
 minute.
