@@ -10,14 +10,14 @@
 
 <div align="center">
 
-[![Made with Claude Code](https://img.shields.io/badge/Made%20with-Claude%20Code-FA9BFA?style=flat)](https://docs.anthropic.com/en/docs/claude-code)
+[![Agent-agnostic](https://img.shields.io/badge/Agent-agnostic-FA9BFA?style=flat)](docs/agents.md)
 [![Go](https://img.shields.io/badge/Go-1.26-4B78E6?style=flat&logo=go&logoColor=white)](https://go.dev/)
 [![Spaced repetition](https://img.shields.io/badge/Review-FSRS-73DC8C?style=flat)](https://github.com/open-spaced-repetition/go-fsrs)
 
 </div>
 
-**algotutor** turns a Claude Code session into a personal algorithms tutor.
-Open a session in this directory, type `train`, and start solving Go problems.
+**algotutor** turns an AI coding session into a personal algorithms tutor.
+Open your agent in this directory, type `train`, and start solving Go problems.
 It tracks your skill level across 32 concepts — from arrays and strings up through
 dynamic programming and design — and picks the next problem based on where you are.
 
@@ -32,9 +32,11 @@ are all built in.
 
 ## How it works
 
-Claude acts as a tutor that generates progressively harder algorithm problems in Go. It tracks your skill level across
+An AI agent acts as a tutor that generates progressively harder algorithm problems in Go. It tracks your skill level across
 32 concepts — from arrays and strings up through dynamic programming and design — and picks the next problem
 based on where you are.
+
+The agent reads its instructions from `AGENTS.md` (mirrored to `CLAUDE.md` and `GEMINI.md` so each agent auto-loads the right file). Any agent that can read files, edit files, and run shell commands works — Claude Code, OpenAI Codex CLI, Cursor, Cline, Aider, OpenCode, Gemini CLI. See [Supported agents](#supported-agents) below, or [docs/agents.md](docs/agents.md) for the full setup matrix.
 
 Read more
 details: [algotutor: using AI to actually get better at algorithms](https://medium.com/@andreiboar/algotutor-using-ai-to-actually-get-better-at-algorithms-a2b7b96e054a)
@@ -52,7 +54,7 @@ details: [algotutor: using AI to actually get better at algorithms](https://medi
 
 ### Spaced repetition review
 
-As you solve problems, Claude automatically creates review cards capturing what you learned — algorithmic patterns, Go
+As you solve problems, the agent automatically creates review cards capturing what you learned — algorithmic patterns, Go
 syntax, data structure properties. Cards follow
 the [SuperMemo 20 Rules for effective memorization](https://www.supermemo.com/en/blog/twenty-rules-of-formulating-knowledge).
 
@@ -102,29 +104,45 @@ session.
 
 ## Requirements
 
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
+- An AI coding agent — see [Supported agents](#supported-agents)
 - [Go](https://go.dev/)
+
+## Supported agents
+
+algotutor works with any AI coding agent that can read files, edit files, and run shell commands. Most agents auto-load `AGENTS.md` (or `CLAUDE.md` / `GEMINI.md`, which are byte-identical mirrors). Pick one:
+
+| Agent                                                         | How to use                                                       |
+|---------------------------------------------------------------|------------------------------------------------------------------|
+| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | `claude` — auto-loads `CLAUDE.md`                                |
+| [OpenAI Codex CLI](https://github.com/openai/codex)           | `codex --auto-edit` — auto-loads `AGENTS.md`                     |
+| [Cursor](https://cursor.com)                                  | Open folder, switch to Agent mode — auto-loads `AGENTS.md`       |
+| [Cline](https://github.com/cline/cline)                       | VS Code extension; type `train` in chat — auto-loads `AGENTS.md` |
+| [OpenCode](https://github.com/sst/opencode)                   | `opencode` — auto-loads `AGENTS.md`                              |
+| [Aider](https://aider.chat)                                   | `aider --read AGENTS.md`                                         |
+| Gemini CLI                                                    | `gemini` — auto-loads `GEMINI.md`                                |
+
+See [docs/agents.md](docs/agents.md) for per-agent model selection, permission flags, and bootstrap notes for agents that don't auto-load.
+
+You can switch agents mid-session — all state lives in JSON / Markdown files on disk, so the next agent picks up exactly where the previous one left off.
 
 ## Getting started
 
 1. Clone the repo
-2. Open a Claude Code session in the directory
+2. Open your AI agent in this directory
 3. Type `train`
 
-On first run, Claude will initialize your progress file and problem directory. Your progress is local and gitignored.
+On first run, the agent will initialize your progress file and problem directory. Your progress is local and gitignored.
 
 ## Recommendations
 
-You can use `claude --dangerously-skip-permissions` to not be prompted all the time.
+The working problem is always inside `main.go`. You can validate with `go run .` before saying `check`.
 
-I had good experience with `Claude Sonnet 4.6` — it's set as the default in `.claude/settings.json`.
-
-The working problem is always inside `main.go`. You can validate with `go run .` before asking `claude check`.
-
-Try to make as much progress as you can before saying `I don't know`. This way Claude can better assess your gaps and
+Try to make as much progress as you can before saying `I don't know`. This way the agent can better assess your gaps and
 missing prerequisites.
 
 If you use an IDE with AI auto-completion, disable it.
 
 It should feel effortful. Don't be afraid to say `I don't know` multiple times. Practice regularly in sessions of 30-60
-minute.
+minutes.
+
+For agent-specific tips (model selection, permission flags, defaults), see [docs/agents.md](docs/agents.md).
