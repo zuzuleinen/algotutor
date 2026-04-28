@@ -43,25 +43,33 @@ cd algotutor
 make init
 ```
 
-Already initialized? Use:
+`make init` walks you through enrolling in courses and (optionally) picking a default
+agent that `make train` and `make review` will auto-launch.
 
-- `make enroll` to add another course
-- `make train` to start training in your default course
-- `make train <slug>` traing in a specific course, e.g., `slug`, `conc`
-- `make review` / `make review conc` to start a spaced-repetition review session
+## Commands
 
-## How it works
+algotutor has two command surfaces.
 
-Your AI agent acts as a tutor that generates progressively harder problems in Go for the
-active course. It tracks your skill level on each concept and picks the next problem
-based on where you are. 
+- **Local commands** (`make ...`) run in your terminal. They manage course state, launch
+  your agent, and run the local sanity check.
+- **Agent commands** are plain English you type to your AI agent in chat. They drive
+  training, grading, scaffolding, and review.
 
-Read more details:
-[algotutor: using AI to actually get better at algorithms](https://medium.com/@andreiboar/algotutor-using-ai-to-actually-get-better-at-algorithms-a2b7b96e054a)
+### Local commands — terminal
 
-### Commands
+| Command                | What it does                                                              |
+|------------------------|---------------------------------------------------------------------------|
+| `make init`            | First-time setup — enroll in courses, pick a default agent                |
+| `make enroll`          | Add another course to your enrollment                                     |
+| `make train`           | Launch your agent in training mode for the active course                  |
+| `make train <slug>`    | Switch active course to `<slug>` and launch the agent there               |
+| `make review`          | Open the review TUI across every enrolled course                          |
+| `make review <slug>`   | Open the review TUI scoped to one course                                  |
+| `make run`             | Sanity-check your solution before `check` (active-course aware)           |
 
-Type these to your agent (in addition to the `make` shortcuts above):
+### Agent commands — chat
+
+Type these to your agent once it's running:
 
 | Command                          | What it does                                                                  |
 |----------------------------------|-------------------------------------------------------------------------------|
@@ -75,6 +83,15 @@ Type these to your agent (in addition to the `make` shortcuts above):
 | `enroll`                         | Add another course to your enrollment                                         |
 | `reset`                          | Wipe progress in the active course (with `confirm reset` gate)                |
 | `reset all`                      | Wipe progress in every enrolled course (with `confirm reset all` gate)        |
+
+## How it works
+
+Your AI agent acts as a tutor that generates progressively harder problems in Go for the
+active course. It tracks your skill level on each concept and picks the next problem
+based on where you are.
+
+Read more details:
+[algotutor: using AI to actually get better at algorithms](https://medium.com/@andreiboar/algotutor-using-ai-to-actually-get-better-at-algorithms-a2b7b96e054a)
 
 ### Spaced repetition review
 
