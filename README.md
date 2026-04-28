@@ -17,9 +17,14 @@
 </div>
 
 **algotutor** turns an AI coding session into a personal tutor for Go.
-It hosts independent training tracks (called *courses*) — Algorithms & Data Structures and
-Go Concurrency today, more later — each with its own concept ladder, problem bank,
+
+It hosts multiple courses each with its own concept ladder, problem bank,
 spaced-repetition review, mistake tracking, re-solves, and interleaved mix sessions.
+
+Current courses:
+
+- Algorithms & Data Structures
+- Go Concurrency
 
 You enroll in one or more courses, train in one course at a time, and switch whenever you
 want. The agent keeps every course's state isolated: progress in algorithms doesn't move
@@ -33,10 +38,10 @@ your concurrency level, and vice versa.
 
 ## Courses
 
-| Slug   | Course                              | What you train                                                                       |
-|--------|-------------------------------------|--------------------------------------------------------------------------------------|
-| `algos` | Algorithms & Data Structures (Go)   | 35 concepts — arrays, hash maps, recursion, trees, graphs, DP, interview shapes      |
-| `conc`  | Go Concurrency                      | 31 concepts — goroutines, channels, select, mutex, context, patterns; race-detected   |
+| Slug    | Course                            | What you train                                                                      |
+|---------|-----------------------------------|-------------------------------------------------------------------------------------|
+| `algos` | Algorithms & Data Structures (Go) | 35 concepts — arrays, hash maps, recursion, trees, graphs, DP, interview shapes     |
+| `conc`  | Go Concurrency                    | 31 concepts — goroutines, channels, select, mutex, context, patterns; race-detected |
 
 Each course's concepts live in `courses/<slug>/docs/concepts.md`, problems in
 `courses/<slug>/problem-bank.md`, and language traps in `courses/<slug>/docs/go-gotchas.md`.
@@ -77,10 +82,10 @@ type `train conc` and your concurrency progress takes over.
 
 Working files for the active course live at the repo root:
 
-| Active course | Working files                    | Validation                       |
-|---------------|----------------------------------|----------------------------------|
-| `algos`       | `main.go`                        | `go run .` + `fmt.Println` checks |
-| `conc`        | `main.go` + `main_test.go`       | `go test -race ./...`             |
+| Active course | Working files              | Validation                        |
+|---------------|----------------------------|-----------------------------------|
+| `algos`       | `main.go`                  | `go run .` + `fmt.Println` checks |
+| `conc`        | `main.go` + `main_test.go` | `go test -race ./...`             |
 
 Read more details:
 [algotutor: using AI to actually get better at algorithms](https://medium.com/@andreiboar/algotutor-using-ai-to-actually-get-better-at-algorithms-a2b7b96e054a)
@@ -89,18 +94,18 @@ Read more details:
 
 Type these to your agent (in addition to the `make` shortcuts above):
 
-| Command                          | What it does                                                            |
-|----------------------------------|-------------------------------------------------------------------------|
-| `train`                          | Get the next problem in the active course                               |
-| `train <course>`                 | Switch to `<course>` and start training there                           |
+| Command                          | What it does                                                                  |
+|----------------------------------|-------------------------------------------------------------------------------|
+| `train`                          | Get the next problem in the active course                                     |
+| `train <course>`                 | Switch to `<course>` and start training there                                 |
 | `check`                          | Submit your solution for evaluation (grading, mistake logging, level updates) |
-| `I don't know`                   | Break the problem into simpler sub-problems                             |
-| `I want to solve [problem name]` | Request a specific problem from the active course                       |
-| `review`                         | Check if you have cards due for review                                  |
-| `mistakes`                       | Show your recurring-error report for the active course                  |
-| `enroll`                         | Add another course to your enrollment                                   |
-| `reset`                          | Wipe progress in the active course (with `confirm reset` gate)          |
-| `reset all`                      | Wipe progress in every enrolled course (with `confirm reset all` gate)  |
+| `I don't know`                   | Break the problem into simpler sub-problems                                   |
+| `I want to solve [problem name]` | Request a specific problem from the active course                             |
+| `review`                         | Check if you have cards due for review                                        |
+| `mistakes`                       | Show your recurring-error report for the active course                        |
+| `enroll`                         | Add another course to your enrollment                                         |
+| `reset`                          | Wipe progress in the active course (with `confirm reset` gate)                |
+| `reset all`                      | Wipe progress in every enrolled course (with `confirm reset all` gate)        |
 
 ### Spaced repetition review
 
