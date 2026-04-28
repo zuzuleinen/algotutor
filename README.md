@@ -14,9 +14,12 @@
 [![Go](https://img.shields.io/badge/Go-1.26-4B78E6?style=flat&logo=go&logoColor=white)](https://go.dev/)
 [![Spaced repetition](https://img.shields.io/badge/Review-FSRS-73DC8C?style=flat)](https://github.com/open-spaced-repetition/go-fsrs)
 
+**[algotutor.ai](https://algotutor.ai)**
+
 </div>
 
-**algotutor** turns an AI coding session into your personal tutor for Go.
+**algotutor** turns an AI coding session into your personal tutor for Go. See it
+in action at **[algotutor.ai](https://algotutor.ai)**.
 
 It hosts multiple courses, each with its own concept ladder, problem bank,
 spaced-repetition review, mistake tracking, re-solves, and interleaved mix sessions.
