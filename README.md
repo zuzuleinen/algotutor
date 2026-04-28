@@ -21,15 +21,6 @@
 It hosts multiple courses, each with its own concept ladder, problem bank,
 spaced-repetition review, mistake tracking, re-solves, and interleaved mix sessions.
 
-Current courses:
-
-- Algorithms & Data Structures
-- Go Concurrency
-
-You enroll in one or more courses, train in one course at a time, and switch whenever you
-want. The agent keeps every course's state isolated: progress in algorithms doesn't move
-your concurrency level, and vice versa.
-
 <div align="center">
 
 <img src="img_2.png" width="700" alt="algotutor in action"/>
