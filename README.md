@@ -5,7 +5,7 @@
         <img height="80" alt="algotutor" src="logo.svg">
     </picture>
     <br>
-    AI-powered algorithmic training for Go developers
+    AI-powered training for Go developers — algorithms, concurrency, and more
 </h2>
 
 <div align="center">
@@ -16,13 +16,14 @@
 
 </div>
 
-**algotutor** turns an AI coding session into a personal algorithms tutor.
-Open your agent in this directory, type `train`, and start solving Go problems.
-It tracks your skill level across 32 concepts — from arrays and strings up through
-dynamic programming and design — and picks the next problem based on where you are.
+**algotutor** turns an AI coding session into a personal tutor for Go.
+It hosts independent training tracks (called *courses*) — Algorithms & Data Structures and
+Go Concurrency today, more later — each with its own concept ladder, problem bank,
+spaced-repetition review, mistake tracking, re-solves, and interleaved mix sessions.
 
-Spaced-repetition review, mistake tracking, re-solves, and interleaved mix sessions
-are all built in.
+You enroll in one or more courses, train in one course at a time, and switch whenever you
+want. The agent keeps every course's state isolated: progress in algorithms doesn't move
+your concurrency level, and vice versa.
 
 <div align="center">
 
@@ -30,86 +31,138 @@ are all built in.
 
 </div>
 
+## Courses
+
+| Slug   | Course                              | What you train                                                                       |
+|--------|-------------------------------------|--------------------------------------------------------------------------------------|
+| `algos` | Algorithms & Data Structures (Go)   | 35 concepts — arrays, hash maps, recursion, trees, graphs, DP, interview shapes      |
+| `conc`  | Go Concurrency                      | 31 concepts — goroutines, channels, select, mutex, context, patterns; race-detected   |
+
+Each course's concepts live in `courses/<slug>/docs/concepts.md`, problems in
+`courses/<slug>/problem-bank.md`, and language traps in `courses/<slug>/docs/go-gotchas.md`.
+
+## Getting started
+
+```bash
+git clone <repo>
+cd algotutor
+make init
+```
+
+`make init` runs an interactive (charm/huh-powered) setup:
+
+1. Checks your Go version (≥ 1.26).
+2. Detects available AI agents on your `$PATH` (Claude Code, Codex, OpenCode, Gemini CLI)
+   and lets you pick a default — or skip and launch manually.
+3. Prompts you to enroll in one or more courses.
+4. Optionally launches your AI agent in this directory and types `train` for you.
+
+Already initialized? Use:
+
+- `make enroll` to add another course
+- `make train` to start training in your default course
+- `make train conc` to switch to and start training in a specific course
+- `make review` / `make review conc` to start a spaced-repetition review session
+
 ## How it works
 
-An AI agent acts as a tutor that generates progressively harder algorithm problems in Go. It tracks your skill level across
-32 concepts — from arrays and strings up through dynamic programming and design — and picks the next problem
+An AI agent acts as a tutor that generates progressively harder problems in Go for the
+active course. It tracks your skill level on each concept and picks the next problem
 based on where you are.
 
-The agent reads its instructions from `AGENTS.md` (mirrored to `CLAUDE.md` and `GEMINI.md` so each agent auto-loads the right file). Any agent that can read files, edit files, and run shell commands works — Claude Code, OpenAI Codex CLI, Cursor, Cline, Aider, OpenCode, Gemini CLI. See [Supported agents](#supported-agents) below, or [docs/agents.md](docs/agents.md) for the full setup matrix.
+The agent reads its instructions from `AGENTS.md` (mirrored to `CLAUDE.md` and `GEMINI.md`).
+On every flow it first reads `state.json` to know which course is active, then resolves
+all course-specific paths to `courses/<active>/...`. Switching courses is instant —
+type `train conc` and your concurrency progress takes over.
 
-Read more
-details: [algotutor: using AI to actually get better at algorithms](https://medium.com/@andreiboar/algotutor-using-ai-to-actually-get-better-at-algorithms-a2b7b96e054a)
+Working files for the active course live at the repo root:
+
+| Active course | Working files                    | Validation                       |
+|---------------|----------------------------------|----------------------------------|
+| `algos`       | `main.go`                        | `go run .` + `fmt.Println` checks |
+| `conc`        | `main.go` + `main_test.go`       | `go test -race ./...`             |
+
+Read more details:
+[algotutor: using AI to actually get better at algorithms](https://medium.com/@andreiboar/algotutor-using-ai-to-actually-get-better-at-algorithms-a2b7b96e054a)
 
 ### Commands
 
-| Command                          | What it does                                                        |
-|----------------------------------|---------------------------------------------------------------------|
-| `train`                          | Get the next problem — drill, re-solve, mix, or new, based on state |
-| `check`                          | Submit your solution for evaluation                                 |
-| `I don't know`                   | Break the problem into simpler sub-problems                         |
-| `I want to solve [problem name]` | Request a specific problem                                          |
-| `review`                         | Check if you have cards due for review                              |
-| `mistakes`                       | Show your recurring-error report                                    |
+Type these to your agent (in addition to the `make` shortcuts above):
+
+| Command                          | What it does                                                            |
+|----------------------------------|-------------------------------------------------------------------------|
+| `train`                          | Get the next problem in the active course                               |
+| `train <course>`                 | Switch to `<course>` and start training there                           |
+| `check`                          | Submit your solution for evaluation (grading, mistake logging, level updates) |
+| `I don't know`                   | Break the problem into simpler sub-problems                             |
+| `I want to solve [problem name]` | Request a specific problem from the active course                       |
+| `review`                         | Check if you have cards due for review                                  |
+| `mistakes`                       | Show your recurring-error report for the active course                  |
+| `enroll`                         | Add another course to your enrollment                                   |
+| `reset`                          | Wipe progress in the active course (with `confirm reset` gate)          |
+| `reset all`                      | Wipe progress in every enrolled course (with `confirm reset all` gate)  |
 
 ### Spaced repetition review
 
-As you solve problems, the agent automatically creates review cards capturing what you learned — algorithmic patterns, Go
-syntax, data structure properties. Cards follow
-the [SuperMemo 20 Rules for effective memorization](https://www.supermemo.com/en/blog/twenty-rules-of-formulating-knowledge).
+As you solve problems in either course, the agent automatically creates review cards
+following the [SuperMemo 20 Rules](https://www.supermemo.com/en/blog/twenty-rules-of-formulating-knowledge).
+Cards live in `courses/<slug>/cards.json` — separate per course.
 
-Run `make review` (or `go run ./cmd/review`) to start an Anki-style review session. The review TUI uses
-the [FSRS](https://github.com/open-spaced-repetition/go-fsrs) algorithm to schedule cards. Rate each card 1–4 (
-Again/Hard/Good/Easy) and it will reappear at the optimal interval.
+Run `make review` (or `make review conc`) to start an Anki-style review session. The
+review TUI uses [FSRS](https://github.com/open-spaced-repetition/go-fsrs) to schedule
+cards. Rate each 1–4 (Again/Hard/Good/Easy) and it reappears at the optimal interval.
 
 <img src="img_1.png" width="600" alt="img_1.png">
 
 ### Mistake tracking
 
-Every failed `check` is tagged with a fixed error taxonomy (off-by-one, forgotten-update, missed base case, empty-input
-missed, wrong-algorithm, and ~25 more) and logged to `mistakes.json`. Gaps that would otherwise evaporate at the end of
-a session stick around as data.
+Every failed `check` is tagged with a course-specific error taxonomy and logged to
+`courses/<slug>/mistakes.json`.
 
-When any category accumulates ≥ 3 unresolved entries in your recent history, `train` stops picking a new concept and
-instead hands you a tiny single-category drill — five-line problems stripped of surrounding concept, aimed at exactly
-that failure mode. Solve it and the oldest open mistakes in that category close out.
+- For algos: off-by-one, forgotten-update, missed base case, wrong-algorithm, etc.
+- For concurrency: data-race, send-without-receiver, lock-order-inversion, goroutine-leaked,
+  context-not-checked, and others.
 
-Every 7 days, `train` prints a short digest of your top recurring categories. Run `mistakes` any time to see the full
-report on demand. Drills do not raise concept levels — their only effect is to patch the pattern.
+When any category accumulates ≥ 3 unresolved entries in your recent history, `train`
+hands you a tiny single-category drill — five-line problems stripped of surrounding
+concept, aimed at exactly that failure mode. Solve it and the oldest open mistakes in
+that category close out.
+
+Every 7 days, `train` prints a digest of your top recurring categories. Run `mistakes`
+any time to see the full report on demand. Drills don't raise concept levels — their only
+effect is to patch the pattern.
 
 ### Re-solve
 
-Solving a problem once isn't mastery. Every successfully solved problem enters a Leitner schedule (7 / 21 / 60 / 180 /
-365 days) in `resolve.json`. When a problem comes due, `train` hands it back with a fresh `main.go` template — your
-previous solution is hidden — and you re-solve it from scratch.
+Solving a problem once isn't mastery. Every successfully solved problem enters a Leitner
+schedule (7 / 21 / 60 / 180 / 365 days) in `courses/<slug>/resolve.json`. When a problem
+comes due, `train` hands it back with a fresh template — your previous solution hidden —
+and you re-solve it from scratch.
 
-A clean re-solve pushes the next due date further out. Needing scaffolding holds the step. Giving up (`give up`,
-`fail this`, `skip re-solve`) resets the ladder, and **two consecutive failed re-solves on the same concept** drop
-its level by one. Re-solves preempt new training the moment anything is due.
+A clean re-solve pushes the next due date further out. Needing scaffolding holds the step.
+Two consecutive failed re-solves on the same concept drop its level by one. Re-solves
+preempt new training the moment anything is due.
 
 ### Mix
 
-Research shows interleaved practice beats grinding one concept at a time. Once you have 5+ concepts at level 2+ and
-at least 3 have gone cold (untouched for 14+ days), `train` starts a mix session — 3 problems from 3 different
-concepts, one after the other, each drawn one level below your working level so the context switching itself is the
-challenge.
+Once you have 5+ concepts at level 2+ in a course and at least 3 have gone cold (untouched
+for 14+ days), `train` starts a mix session — 3 problems from 3 different concepts in
+that course, one after the other. Mix is per-course; mixing across courses is not
+supported (the contexts are too different).
 
-Mix doesn't raise concept levels. It updates a per-concept retention score in `retention.json` — clean mix solves push
-retention up (+0.2), failures push it down (−0.3), and retention decays 0.1 per 14 days a concept sits untouched. Low
-retention shows up as a nudge on `train`.
-
-Mix sessions trigger at most once a week and run one at a time — there's no command to force one. Inside a mix,
-scaffolding and `I don't know` work normally; say `skip` to drop a problem and move on, or `end mix` to abandon the
-session.
+Mix doesn't raise concept levels. It updates a per-concept retention score in
+`courses/<slug>/retention.json`. Low retention shows up as a nudge on `train`.
 
 ## Requirements
 
 - An AI coding agent — see [Supported agents](#supported-agents)
-- [Go](https://go.dev/)
+- [Go](https://go.dev/) ≥ 1.26
 
 ## Supported agents
 
-algotutor works with any AI coding agent that can read files, edit files, and run shell commands. Most agents auto-load `AGENTS.md` (or `CLAUDE.md` / `GEMINI.md`, which are byte-identical mirrors). Pick one:
+algotutor works with any AI coding agent that can read files, edit files, and run shell
+commands. Most agents auto-load `AGENTS.md` (or `CLAUDE.md` / `GEMINI.md`, byte-identical
+mirrors).
 
 | Agent                                                         | How to use                                                       |
 |---------------------------------------------------------------|------------------------------------------------------------------|
@@ -121,28 +174,43 @@ algotutor works with any AI coding agent that can read files, edit files, and ru
 | [Aider](https://aider.chat)                                   | `aider --read AGENTS.md`                                         |
 | Gemini CLI                                                    | `gemini` — auto-loads `GEMINI.md`                                |
 
-See [docs/agents.md](docs/agents.md) for per-agent model selection, permission flags, and bootstrap notes for agents that don't auto-load.
+If you set a default agent during `make init`, `make train` and `make review` will
+auto-launch it for you with the right prompt. Otherwise they print "Open your agent and
+type `train`" and you do the launching.
 
-You can switch agents mid-session — all state lives in JSON / Markdown files on disk, so the next agent picks up exactly where the previous one left off.
+You can switch agents mid-session — all state lives in JSON / Markdown files on disk, so
+the next agent picks up exactly where the previous one left off.
 
-## Getting started
-
-1. Clone the repo
-2. Open your AI agent in this directory
-3. Type `train`
-
-On first run, the agent will initialize your progress file and problem directory. Your progress is local and gitignored.
+See [docs/agents.md](docs/agents.md) for per-agent model selection, permission flags, and
+bootstrap notes for agents that don't auto-load.
 
 ## Recommendations
 
-The working problem is always inside `main.go`. You can validate with `go run .` before saying `check`.
+The active course's working file(s) are always at the repo root: `main.go` for `algos`,
+`main.go` + `main_test.go` for `conc`.
 
-Try to make as much progress as you can before saying `I don't know`. This way the agent can better assess your gaps and
-missing prerequisites.
+Before saying `check` to your agent, run **`make run`** for a local sanity check. It
+dispatches based on the active course:
+
+- `algos` → `go run .` (you eyeball the printed output against the expected-output comments)
+- `conc` → `go test -race .` (race-detected test assertions on the root package)
+
+Two distinct things happen at validation time:
+
+- **`make run`** — local smoke test. "Did my code compile and produce reasonable output?"
+- **`check`** (in agent) — full evaluation. "Is this *the right* solution? Update my
+  level, log my mistakes, schedule a re-solve, create review cards."
+
+Always run `make run` first. It's faster than a round-trip to your agent and surfaces
+syntax errors and obvious bugs before the agent grades you.
+
+Try to make as much progress as you can before saying `I don't know`. This way the agent
+can better assess your gaps.
 
 If you use an IDE with AI auto-completion, disable it.
 
-It should feel effortful. Don't be afraid to say `I don't know` multiple times. Practice regularly in sessions of 30-60
-minutes.
+It should feel effortful. Don't be afraid to say `I don't know` multiple times. Practice
+regularly in sessions of 30–60 minutes.
 
-For agent-specific tips (model selection, permission flags, defaults), see [docs/agents.md](docs/agents.md).
+For agent-specific tips (model selection, permission flags, defaults), see
+[docs/agents.md](docs/agents.md).

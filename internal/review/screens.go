@@ -4,15 +4,15 @@ import (
 	"fmt"
 	"sort"
 	"strings"
-	"time"
 
 	"github.com/charmbracelet/lipgloss"
 )
 
 func (m Model) viewWelcome() string {
-	now := time.Now()
-	total, due, newCount := m.store.Stats(now)
-	byConcept := m.store.DueByConcept(now)
+	total := m.welcome.Total
+	due := m.welcome.Due
+	newCount := m.welcome.New
+	byConcept := m.welcome.DueByConcept
 
 	title := titleStyle.Render("ALGOTUTOR REVIEW")
 
