@@ -27,15 +27,13 @@ spaced-repetition review, mistake tracking, re-solves, and interleaved mix sessi
 
 </div>
 
-## Courses
+## Current Courses
 
-| Slug    | Course                            | What you train                                                                      |
-|---------|-----------------------------------|-------------------------------------------------------------------------------------|
-| `algos` | Algorithms & Data Structures (Go) | 35 concepts — arrays, hash maps, recursion, trees, graphs, DP, interview shapes     |
-| `conc`  | Go Concurrency                    | 31 concepts — goroutines, channels, select, mutex, context, patterns; race-detected |
+| Slug    | Course                            | 
+|---------|-----------------------------------|
+| `algos` | Algorithms & Data Structures (Go) | 
+| `conc`  | Go Concurrency                    | 
 
-Each course's concepts live in `courses/<slug>/docs/concepts.md`, problems in
-`courses/<slug>/problem-bank.md`, and language traps in `courses/<slug>/docs/go-gotchas.md`.
 
 ## Getting started
 
@@ -45,38 +43,18 @@ cd algotutor
 make init
 ```
 
-`make init` runs an interactive (charm/huh-powered) setup:
-
-1. Checks your Go version (≥ 1.26).
-2. Detects available AI agents on your `$PATH` (Claude Code, Codex, OpenCode, Gemini CLI)
-   and lets you pick a default — or skip and launch manually.
-3. Prompts you to enroll in one or more courses.
-4. Optionally launches your AI agent in this directory and types `train` for you.
-
 Already initialized? Use:
 
 - `make enroll` to add another course
 - `make train` to start training in your default course
-- `make train conc` to switch to and start training in a specific course
+- `make train <slug>` traing in a specific course, e.g., `slug`, `conc`
 - `make review` / `make review conc` to start a spaced-repetition review session
 
 ## How it works
 
-An AI agent acts as a tutor that generates progressively harder problems in Go for the
+Your AI agent acts as a tutor that generates progressively harder problems in Go for the
 active course. It tracks your skill level on each concept and picks the next problem
-based on where you are.
-
-The agent reads its instructions from `AGENTS.md` (mirrored to `CLAUDE.md` and `GEMINI.md`).
-On every flow it first reads `state.json` to know which course is active, then resolves
-all course-specific paths to `courses/<active>/...`. Switching courses is instant —
-type `train conc` and your concurrency progress takes over.
-
-Working files for the active course live at the repo root:
-
-| Active course | Working files              | Validation                        |
-|---------------|----------------------------|-----------------------------------|
-| `algos`       | `main.go`                  | `go run .` + `fmt.Println` checks |
-| `conc`        | `main.go` + `main_test.go` | `go test -race ./...`             |
+based on where you are. 
 
 Read more details:
 [algotutor: using AI to actually get better at algorithms](https://medium.com/@andreiboar/algotutor-using-ai-to-actually-get-better-at-algorithms-a2b7b96e054a)
