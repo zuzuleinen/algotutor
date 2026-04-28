@@ -48,13 +48,6 @@ agent that `make train` and `make review` will auto-launch.
 
 ## Commands
 
-algotutor has two command surfaces.
-
-- **Local commands** (`make ...`) run in your terminal. They manage course state, launch
-  your agent, and run the local sanity check.
-- **Agent commands** are plain English you type to your AI agent in chat. They drive
-  training, grading, and scaffolding.
-
 ### Local commands — terminal
 
 | Command                | What it does                                                              |
