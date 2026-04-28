@@ -5,7 +5,7 @@
         <img height="80" alt="algotutor" src="logo.svg">
     </picture>
     <br>
-    AI-powered training for Go developers — algorithms, concurrency, and more
+    AI-powered training for Go developers
 </h2>
 
 <div align="center">
