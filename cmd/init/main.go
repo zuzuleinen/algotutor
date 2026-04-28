@@ -52,7 +52,23 @@ func runInit() error {
 	}
 
 	if _, err := os.Stat(courses.StateFile); err == nil {
-		fmt.Println("Already initialized. Use `make enroll` to add a course.")
+		// Already initialized — but if no default agent is set, offer to pick one now.
+		state, loadErr := courses.Load()
+		if loadErr == nil && (state.DefaultAgent == nil || *state.DefaultAgent == "") {
+			agent, pickErr := promptAgent()
+			if pickErr != nil {
+				return pickErr
+			}
+			if agent != "" {
+				state.DefaultAgent = &agent
+				if saveErr := state.Save(); saveErr != nil {
+					return fmt.Errorf("save state.json: %w", saveErr)
+				}
+				fmt.Printf("Default agent set to %s.\n", agent)
+			}
+		} else {
+			fmt.Println("Already initialized. Use `make enroll` to add a course.")
+		}
 		return nil
 	}
 

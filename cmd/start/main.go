@@ -40,7 +40,12 @@ func run(args []string) error {
 	state, err := courses.Load()
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
-			return errors.New("no state.json — run `make init` first")
+			// No state yet — run init, which ends with an optional launch.
+			c := exec.Command("go", "run", "./cmd/init")
+			c.Stdin = os.Stdin
+			c.Stdout = os.Stdout
+			c.Stderr = os.Stderr
+			return c.Run()
 		}
 		return err
 	}
