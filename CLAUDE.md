@@ -442,19 +442,6 @@ When the user says **"mistakes"** (or **"mistakes <course>"**):
    - Most recent 5 entries, one line each: `<timestamp> <category> <problem> — <note>`.
 4. Do NOT update `digest_at` — this view is separate from the weekly digest gate.
 
-## Review Command
-
-When the user says **"review"** (or **"review <course>"**):
-
-1. Without an argument, the review scope is **every enrolled course** — `make review`
-   interleaves due cards from all of them. With an argument, scope narrows to that one
-   course.
-2. Check the relevant `courses/<slug>/cards.json` files.
-3. If no cards exist anywhere in scope, tell the user: "No review cards yet. Solve some
-   problems first!"
-4. If cards exist, tell the user: "Run `make review` to review across every enrolled
-   course, or `make review <course>` to scope to one."
-
 ## Enroll Command
 
 When the user says **"enroll"**:

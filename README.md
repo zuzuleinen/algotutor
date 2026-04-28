@@ -53,7 +53,7 @@ algotutor has two command surfaces.
 - **Local commands** (`make ...`) run in your terminal. They manage course state, launch
   your agent, and run the local sanity check.
 - **Agent commands** are plain English you type to your AI agent in chat. They drive
-  training, grading, scaffolding, and review.
+  training, grading, and scaffolding.
 
 ### Local commands — terminal
 
@@ -65,6 +65,7 @@ algotutor has two command surfaces.
 | `make train <slug>`    | Switch active course to `<slug>` and launch the agent there               |
 | `make review`          | Open the review TUI across every enrolled course                          |
 | `make review <slug>`   | Open the review TUI scoped to one course                                  |
+| `make list`            | List all available courses and your enrollment status                     |
 | `make run`             | Sanity-check your solution before `check` (active-course aware)           |
 
 ### Agent commands — chat
@@ -78,7 +79,6 @@ Type these to your agent once it's running:
 | `check`                          | Submit your solution for evaluation (grading, mistake logging, level updates) |
 | `I don't know`                   | Break the problem into simpler sub-problems                                   |
 | `I want to solve [problem name]` | Request a specific problem from the active course                             |
-| `review`                         | Check if you have cards due for review                                        |
 | `mistakes`                       | Show your recurring-error report for the active course                        |
 | `enroll`                         | Add another course to your enrollment                                         |
 | `reset`                          | Wipe progress in the active course (with `confirm reset` gate)                |

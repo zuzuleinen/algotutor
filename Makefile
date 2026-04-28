@@ -1,4 +1,4 @@
-.PHONY: init enroll train review run sync-agents check-agents
+.PHONY: init enroll train review run list sync-agents check-agents
 
 # Lets `make train conc` and `make review conc` accept positional args. The
 # `%:` rule swallows the extra arg as a no-op target so make doesn't complain.
@@ -19,6 +19,9 @@ review:
 
 run:
 	@go run ./cmd/run
+
+list:
+	@go run ./cmd/list
 
 sync-agents:
 	cp AGENTS.md CLAUDE.md
