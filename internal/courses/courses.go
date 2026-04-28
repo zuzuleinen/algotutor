@@ -27,11 +27,13 @@ const CoursesDir = "courses"
 var Known = []Course{
 	{
 		Slug:      "algos",
+		Label:     "Algos",
 		Name:      "Algorithms & Data Structures (Go)",
 		Validator: []string{"go", "run", "."},
 	},
 	{
 		Slug:      "conc",
+		Label:     "Concurrency",
 		Name:      "Go Concurrency",
 		Validator: []string{"go", "test", "-race", "."},
 	},
@@ -42,6 +44,7 @@ var Known = []Course{
 // `make run` invokes for problems in this course.
 type Course struct {
 	Slug      string
+	Label     string   // short display name, e.g. "Algos", "Concurrency"
 	Name      string
 	Validator []string
 }

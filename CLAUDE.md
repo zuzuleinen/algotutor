@@ -69,6 +69,10 @@ internal/
 When this document references a path like `courses/<active>/progress.md`, substitute
 `<active>` with the active course slug from `state.json`.
 
+In agent output, use the course's short label (not the slug) when referring to a course by
+name: `algos` → **Algos**, `conc` → **Concurrency**. The full name and label are available
+via `LookupKnown(slug).Label` / `LookupKnown(slug).Name` in Go code.
+
 ## Working Files Per Course
 
 The user works on `main.go` (and `main_test.go` for concurrency) at the **repo root**, not
