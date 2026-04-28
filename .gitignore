@@ -1,10 +1,19 @@
-progress.md
-current.md
-main.go
-problems/
-cards.json
-mistakes.json
-resolve.json
-retention.json
-mix.json
+# Per-course user state
+courses/*/progress.md
+courses/*/current.md
+courses/*/problems/
+courses/*/cards.json
+courses/*/mistakes.json
+courses/*/resolve.json
+courses/*/retention.json
+courses/*/mix.json
+
+# Active-course state
+state.json
+
+# Working files (root-level only — cmd/*/main.go must stay tracked)
+/main.go
+/main_test.go
+
+# Scratch
 work/

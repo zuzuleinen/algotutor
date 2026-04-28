@@ -27,14 +27,24 @@ type sessionStats struct {
 	easy     int
 }
 
+// WelcomeStats is a precomputed snapshot for the welcome screen — totals
+// across however many CardStores were loaded (single course or all enrolled).
+type WelcomeStats struct {
+	Total       int
+	Due         int
+	New         int
+	DueByConcept map[string]int
+}
+
 type Model struct {
 	screen     screen
 	dueCards   []*cards.ReviewCard
 	current    int
 	stats      sessionStats
+	welcome    WelcomeStats
 	width      int
 	height     int
-	store      *cards.CardStore
+	storeOf    map[*cards.ReviewCard]*cards.CardStore
 	fsrs       *fsrs.FSRS
 	textarea   textarea.Model
 	userAnswer string
@@ -51,11 +61,16 @@ func newTextarea() textarea.Model {
 	return ta
 }
 
-func NewModel(store *cards.CardStore, dueCards []*cards.ReviewCard) Model {
+// NewModel builds a review model for the given due cards. storeOf maps each
+// card back to the CardStore it came from, so the model can persist updates
+// to the right file when reviewing across multiple courses. welcome is a
+// precomputed snapshot for the opening screen.
+func NewModel(storeOf map[*cards.ReviewCard]*cards.CardStore, dueCards []*cards.ReviewCard, welcome WelcomeStats) Model {
 	return Model{
 		screen:   screenWelcome,
 		dueCards: dueCards,
-		store:    store,
+		storeOf:  storeOf,
+		welcome:  welcome,
 		fsrs:     fsrs.NewFSRS(fsrs.DefaultParam()),
 		textarea: newTextarea(),
 	}
@@ -169,7 +184,9 @@ func (m Model) updateBack(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	})
 
 	m.stats.reviewed++
-	_ = m.store.Save()
+	if store, ok := m.storeOf[card]; ok && store != nil {
+		_ = store.Save()
+	}
 
 	m.current++
 	if m.current >= len(m.dueCards) {
