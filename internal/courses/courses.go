@@ -35,7 +35,7 @@ var Known = []Course{
 		Slug:      "conc",
 		Label:     "Concurrency",
 		Name:      "Go Concurrency",
-		Validator: []string{"go", "test", "-race", "."},
+		Validator: []string{"go", "test", "-race", "-v", "-count=1", "."},
 	},
 }
 
@@ -44,7 +44,7 @@ var Known = []Course{
 // `make run` invokes for problems in this course.
 type Course struct {
 	Slug      string
-	Label     string   // short display name, e.g. "Algos", "Concurrency"
+	Label     string // short display name, e.g. "Algos", "Concurrency"
 	Name      string
 	Validator []string
 }
