@@ -92,6 +92,7 @@ func runInit() error {
 			return err
 		}
 	}
+	state.Active = "" // no course selected until the user explicitly trains
 	if defaultAgent != "" {
 		a := defaultAgent
 		state.DefaultAgent = &a
