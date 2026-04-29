@@ -83,11 +83,7 @@ func runInit() error {
 	}
 
 	var enrollSlugs []string
-	if pickedCourse == courseLater {
-		for _, c := range courses.Known {
-			enrollSlugs = append(enrollSlugs, c.Slug)
-		}
-	} else {
+	if pickedCourse != courseLater {
 		enrollSlugs = []string{pickedCourse}
 	}
 
@@ -112,6 +108,14 @@ func runInit() error {
 		}
 	}
 
+	if pickedCourse == courseLater {
+		if defaultAgent != "" {
+			fmt.Printf("\nDefault agent: %s\n", defaultAgent)
+		}
+		fmt.Println("\nReady. Run `make enroll` when you want to enroll in a course.")
+		return nil
+	}
+
 	enrollLabels := make([]string, len(enrollSlugs))
 	for i, slug := range enrollSlugs {
 		enrollLabels[i] = courses.DisplayLabel(slug)
@@ -119,11 +123,6 @@ func runInit() error {
 	fmt.Printf("\nEnrolled in: %s\n", strings.Join(enrollLabels, ", "))
 	if defaultAgent != "" {
 		fmt.Printf("Default agent: %s\n", defaultAgent)
-	}
-
-	if pickedCourse == courseLater {
-		fmt.Println("\nReady. Run `make train <course>` when you want to start.")
-		return nil
 	}
 
 	trainNow, err := promptTrainNow()
@@ -211,8 +210,8 @@ func parseGoVersion(v string) (int, int, error) {
 }
 
 // courseLater is the sentinel value returned by promptCourse when the user
-// wants to defer the choice. It enrolls them in every known course so they
-// can train any of them later without re-running setup.
+// wants to defer the choice. No course is enrolled — the user runs
+// `make enroll` to pick one when they're ready.
 const courseLater = "__later__"
 
 func promptCourse() (string, error) {
