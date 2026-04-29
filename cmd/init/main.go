@@ -245,7 +245,7 @@ func promptAgent() (string, error) {
 		return "", nil
 	}
 
-	options := []huh.Option[string]{huh.NewOption("None — I'll launch manually", "")}
+	var options []huh.Option[string]
 	for _, a := range available {
 		options = append(options, huh.NewOption(a.DisplayName, a.Slug))
 	}
@@ -254,8 +254,7 @@ func promptAgent() (string, error) {
 	form := huh.NewForm(
 		huh.NewGroup(
 			huh.NewSelect[string]().
-				Title("Default AI agent for `make train` / `make review`?").
-				Description("Used to auto-launch your agent in this directory.").
+				Title("Default AI agent for your tutor?").
 				Options(options...).
 				Value(&picked),
 		),
