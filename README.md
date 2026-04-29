@@ -18,8 +18,7 @@
 
 </div>
 
-**algotutor** turns an AI coding session into your personal tutor for Go. See it
-in action at **[algotutor.ai](https://algotutor.ai)**.
+**algotutor** turns an AI coding session into your personal tutor for Go.
 
 It hosts multiple courses, each with its own concept ladder, problem bank,
 spaced-repetition review, mistake tracking, re-solves, and interleaved mix sessions.
