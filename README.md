@@ -37,11 +37,17 @@ spaced-repetition review, mistake tracking, re-solves, and interleaved mix sessi
 | `conc`  | Go Concurrency                    | 
 
 
-## Getting started
+## Get started
+
+Clone the project and cd into it:
 
 ```bash
-git clone git@github.com:zuzuleinen/algotutor.git
-cd algotutor
+git clone git@github.com:zuzuleinen/algotutor.git && cd algotutor
+```
+
+Run initial set-up to choose your agent and optionally enroll in a course:
+
+```bash
 make init
 ```
 
