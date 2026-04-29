@@ -41,7 +41,7 @@ spaced-repetition review, mistake tracking, re-solves, and interleaved mix sessi
 ## Getting started
 
 ```bash
-git clone <repo>
+git clone git@github.com:zuzuleinen/algotutor.git
 cd algotutor
 make init
 ```
