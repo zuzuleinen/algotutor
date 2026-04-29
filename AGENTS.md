@@ -28,6 +28,14 @@ in one or more courses and trains in **one course at a time**.
    resolve to `state.active` (last-used), but tell them in one line which course you're
    training: "Training `<active>` (say `train conc` to switch)." If they have only one
    enrolled course, train that one silently.
+6. **Course labels in prose.** When referring to the active course in any user-facing
+   message, use the human-readable **Label**, never the raw slug. The label mapping is
+   defined in `internal/courses/courses.go`:
+   - `algos` → **Algos**
+   - `conc` → **Concurrency**
+   Use the slug only in file paths, `state.json` values, and command examples (e.g.
+   `train conc`). In sentences, write "the Concurrency course" or "Training Concurrency",
+   not "the conc course" or "Active course is `conc`".
 
 ## Project Structure
 
