@@ -84,13 +84,9 @@ Type these to your agent once it's running:
 
 | Command                          | What it does                                                                  |
 |----------------------------------|-------------------------------------------------------------------------------|
-| `train`                          | Get the next problem in the active course                                     |
-| `train <course>`                 | Switch to `<course>` and start training there                                 |
 | `check`                          | Submit your solution for evaluation (grading, mistake logging, level updates) |
 | `I don't know`                   | Break the problem into simpler sub-problems                                   |
 | `I want to solve [problem name]` | Request a specific problem from the active course                             |
-| `mistakes`                       | Show your recurring-error report for the active course                        |
-| `enroll`                         | Add another course to your enrollment                                         |
 | `reset`                          | Wipe progress in the active course (with `confirm reset` gate)                |
 | `reset all`                      | Wipe progress in every enrolled course (with `confirm reset all` gate)        |
 
