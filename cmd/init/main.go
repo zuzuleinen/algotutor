@@ -112,7 +112,11 @@ func runInit() error {
 		}
 	}
 
-	fmt.Printf("\nEnrolled in: %s\n", strings.Join(enrollSlugs, ", "))
+	enrollLabels := make([]string, len(enrollSlugs))
+	for i, slug := range enrollSlugs {
+		enrollLabels[i] = courses.DisplayLabel(slug)
+	}
+	fmt.Printf("\nEnrolled in: %s\n", strings.Join(enrollLabels, ", "))
 	if defaultAgent != "" {
 		fmt.Printf("Default agent: %s\n", defaultAgent)
 	}
@@ -174,7 +178,7 @@ func runEnroll() error {
 		return err
 	}
 	c, _ := courses.LookupKnown(picked)
-	fmt.Printf("Enrolled in %s. Run `make train %s` to start.\n", c.Name, picked)
+	fmt.Printf("Enrolled in %s. Run `make train %s` to start.\n", c.Label, picked)
 	return nil
 }
 

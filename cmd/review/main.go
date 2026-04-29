@@ -64,7 +64,11 @@ func main() {
 	}
 
 	if len(dueCards) == 0 {
-		label := strings.Join(scope, " + ")
+		labels := make([]string, len(scope))
+		for i, slug := range scope {
+			labels[i] = courses.DisplayLabel(slug)
+		}
+		label := strings.Join(labels, " + ")
 		if welcome.Total == 0 {
 			fmt.Printf("No review cards in %s yet. Solve some problems first!\n", label)
 		} else {

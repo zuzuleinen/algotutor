@@ -140,6 +140,16 @@ func LookupKnown(slug string) (Course, bool) {
 	return Known[idx], true
 }
 
+// DisplayLabel returns the human-readable short label for slug (e.g. "Algos",
+// "Concurrency"), falling back to the slug itself when unknown. Use this in
+// user-facing output instead of printing slugs directly.
+func DisplayLabel(slug string) string {
+	if c, ok := LookupKnown(slug); ok {
+		return c.Label
+	}
+	return slug
+}
+
 func knownIndex(slug string) int {
 	for i, c := range Known {
 		if c.Slug == slug {

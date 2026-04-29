@@ -74,14 +74,14 @@ func run(args []string) error {
 	}
 
 	if state.DefaultAgent == nil || *state.DefaultAgent == "" {
-		fmt.Printf("Active course: %s\nOpen your AI agent in this directory and type `%s`.\n", state.Active, prompt)
+		fmt.Printf("Active course: %s\nOpen your AI agent in this directory and type `%s`.\n", courses.DisplayLabel(state.Active), prompt)
 		return nil
 	}
 
 	cmd, err := launch.Command(*state.DefaultAgent, prompt)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Could not build launch command: %v\n", err)
-		fmt.Printf("Active course: %s\nOpen your AI agent in this directory and type `%s`.\n", state.Active, prompt)
+		fmt.Printf("Active course: %s\nOpen your AI agent in this directory and type `%s`.\n", courses.DisplayLabel(state.Active), prompt)
 		return nil
 	}
 	c := exec.Command(cmd[0], cmd[1:]...)
