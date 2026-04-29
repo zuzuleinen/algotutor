@@ -18,8 +18,6 @@
 
 </div>
 
-**algotutor** turns an AI coding session into your personal Go tutor.
-
 Your AI agent acts as a tutor, generating progressively harder Go problems. It tracks your skill level on each concept and picks the next problem
 based on where you are. Current courses: **Algorithms & Data Structures** and **Go Concurrency**.
 
