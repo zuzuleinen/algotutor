@@ -68,7 +68,7 @@ Start a daily review session with `make review`.
 
 ### Agent commands — chat
 
-Type these to your agent once it's running:
+Type these in your agent session:
 
 | Command                          | What it does                                                                  |
 |----------------------------------|-------------------------------------------------------------------------------|
