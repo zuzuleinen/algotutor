@@ -79,57 +79,6 @@ Type these to your agent once it's running:
 | `reset all`                      | Wipe progress in every enrolled course (with `confirm reset all` gate)        |
 
 
-### Spaced repetition review
-
-As you solve problems in either course, the agent automatically creates review cards
-following the [SuperMemo 20 Rules](https://www.supermemo.com/en/blog/twenty-rules-of-formulating-knowledge).
-Cards live in `courses/<slug>/cards.json` — separate per course.
-
-Run `make review` (or `make review conc`) to start an Anki-style review session. The
-review TUI uses [FSRS](https://github.com/open-spaced-repetition/go-fsrs) to schedule
-cards. Rate each 1–4 (Again/Hard/Good/Easy) and it reappears at the optimal interval.
-
-<img src="img_1.png" width="600" alt="img_1.png">
-
-### Mistake tracking
-
-Every failed `check` is tagged with a course-specific error taxonomy and logged to
-`courses/<slug>/mistakes.json`.
-
-- For algos: off-by-one, forgotten-update, missed base case, wrong-algorithm, etc.
-- For concurrency: data-race, send-without-receiver, lock-order-inversion, goroutine-leaked,
-  context-not-checked, and others.
-
-When any category accumulates ≥ 3 unresolved entries in your recent history, `train`
-hands you a tiny single-category drill — five-line problems stripped of surrounding
-concept, aimed at exactly that failure mode. Solve it and the oldest open mistakes in
-that category close out.
-
-Every 7 days, `train` prints a digest of your top recurring categories. Run `mistakes`
-any time to see the full report on demand. Drills don't raise concept levels — their only
-effect is to patch the pattern.
-
-### Re-solve
-
-Solving a problem once isn't mastery. Every successfully solved problem enters a Leitner
-schedule (7 / 21 / 60 / 180 / 365 days) in `courses/<slug>/resolve.json`. When a problem
-comes due, `train` hands it back with a fresh template — your previous solution hidden —
-and you re-solve it from scratch.
-
-A clean re-solve pushes the next due date further out. Needing scaffolding holds the step.
-Two consecutive failed re-solves on the same concept drop its level by one. Re-solves
-preempt new training the moment anything is due.
-
-### Mix
-
-Once you have 5+ concepts at level 2+ in a course and at least 3 have gone cold (untouched
-for 14+ days), `train` starts a mix session — 3 problems from 3 different concepts in
-that course, one after the other. Mix is per-course; mixing across courses is not
-supported (the contexts are too different).
-
-Mix doesn't raise concept levels. It updates a per-concept retention score in
-`courses/<slug>/retention.json`. Low retention shows up as a nudge on `train`.
-
 ## Requirements
 
 - An AI coding agent — see [Supported agents](#supported-agents)
@@ -160,34 +109,3 @@ the next agent picks up exactly where the previous one left off.
 
 See [docs/agents.md](docs/agents.md) for per-agent model selection, permission flags, and
 bootstrap notes for agents that don't auto-load.
-
-## Recommendations
-
-The active course's working file(s) are always at the repo root: `main.go` for `algos`,
-`main.go` + `main_test.go` for `conc`.
-
-Before saying `check` to your agent, run **`make run`** for a local sanity check. It
-dispatches based on the active course:
-
-- `algos` → `go run .` (you eyeball the printed output against the expected-output comments)
-- `conc` → `go test -race .` (race-detected test assertions on the root package)
-
-Two distinct things happen at validation time:
-
-- **`make run`** — local smoke test. "Did my code compile and produce reasonable output?"
-- **`check`** (in agent) — full evaluation. "Is this *the right* solution? Update my
-  level, log my mistakes, schedule a re-solve, create review cards."
-
-Always run `make run` first. It's faster than a round-trip to your agent and surfaces
-syntax errors and obvious bugs before the agent grades you.
-
-Try to make as much progress as you can before saying `I don't know`. This way the agent
-can better assess your gaps.
-
-If you use an IDE with AI auto-completion, disable it.
-
-It should feel effortful. Don't be afraid to say `I don't know` multiple times. Practice
-regularly in sessions of 30–60 minutes.
-
-For agent-specific tips (model selection, permission flags, defaults), see
-[docs/agents.md](docs/agents.md).
