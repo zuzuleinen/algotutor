@@ -46,9 +46,6 @@ cd algotutor
 make init
 ```
 
-`make init` walks you through enrolling in courses and (optionally) picking a default
-agent that `make train` and `make review` will auto-launch.
-
 ## Commands
 
 ### Local commands — terminal
