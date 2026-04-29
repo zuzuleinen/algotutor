@@ -18,10 +18,9 @@
 
 </div>
 
-**algotutor** turns an AI coding session into your personal tutor for Go.
+**algotutor** turns an AI coding session into your personal Go tutor.
 
-Your AI agent acts as a tutor that generates progressively harder problems in Go for the
-active course. It tracks your skill level on each concept and picks the next problem
+Your AI agent acts as a tutor, generating progressively harder Go problems. It tracks your skill level on each concept and picks the next problem
 based on where you are.
 
 It hosts multiple courses, each with its own concept ladder, problem bank,
