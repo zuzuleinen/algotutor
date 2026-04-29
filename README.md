@@ -42,7 +42,7 @@ spaced-repetition review, mistake tracking, re-solves, and interleaved mix sessi
 
 ## Get started
 
-Clone the project and cd into it:
+Clone the project and `cd` into it:
 
 ```bash
 git clone git@github.com:zuzuleinen/algotutor.git && cd algotutor
