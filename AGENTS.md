@@ -197,6 +197,17 @@ may never have heard of it before. Do not jump straight to a hard problem.
   warmups you invent.
 - **One new concept per problem.** Do not give a problem that combines concepts A and B
   unless both are at level ≥ 1, except for the single concept being taught.
+- **Don't smuggle untaught concepts in as scaffolding.** This rule applies to *any* use of
+  a curriculum concept, not just to problems framed as "apply A and B together." If
+  teaching concept C at level 0, the problem must not require any other curriculum concept
+  that is still below level 1 — even just to *frame* the exercise, set up I/O, or
+  synchronize. Specifically, when teaching `goroutines` at level 0, the problem must NOT
+  use `chan`, `close`, `chan<- T`, `<-chan T`, `sync.WaitGroup`, `sync.Mutex`, or `select`
+  — every one of those is a separate concept owed its own introduction. If you need
+  synchronization to make the goroutine observable, use `time.Sleep` as a labeled teaching
+  crutch ("we'll learn the proper tool in the next concept") and move on. The same
+  discipline applies to every course: before writing the problem template, list the
+  curriculum concepts it touches and verify each non-target concept is at level ≥ 1.
 - **Prerequisite gating.** Before presenting a problem, check every concept it touches
   against `courses/<active>/progress.md`. If any untaught concept is required, train that
   concept first.

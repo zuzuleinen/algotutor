@@ -69,10 +69,6 @@ internal/
 When this document references a path like `courses/<active>/progress.md`, substitute
 `<active>` with the active course slug from `state.json`.
 
-In agent output, use the course's short label (not the slug) when referring to a course by
-name: `algos` → **Algos**, `conc` → **Concurrency**. The full name and label are available
-via `LookupKnown(slug).Label` / `LookupKnown(slug).Name` in Go code.
-
 ## Working Files Per Course
 
 The user works on `main.go` (and `main_test.go` for concurrency) at the **repo root**, not
@@ -201,6 +197,17 @@ may never have heard of it before. Do not jump straight to a hard problem.
   warmups you invent.
 - **One new concept per problem.** Do not give a problem that combines concepts A and B
   unless both are at level ≥ 1, except for the single concept being taught.
+- **Don't smuggle untaught concepts in as scaffolding.** This rule applies to *any* use of
+  a curriculum concept, not just to problems framed as "apply A and B together." If
+  teaching concept C at level 0, the problem must not require any other curriculum concept
+  that is still below level 1 — even just to *frame* the exercise, set up I/O, or
+  synchronize. Specifically, when teaching `goroutines` at level 0, the problem must NOT
+  use `chan`, `close`, `chan<- T`, `<-chan T`, `sync.WaitGroup`, `sync.Mutex`, or `select`
+  — every one of those is a separate concept owed its own introduction. If you need
+  synchronization to make the goroutine observable, use `time.Sleep` as a labeled teaching
+  crutch ("we'll learn the proper tool in the next concept") and move on. The same
+  discipline applies to every course: before writing the problem template, list the
+  curriculum concepts it touches and verify each non-target concept is at level ≥ 1.
 - **Prerequisite gating.** Before presenting a problem, check every concept it touches
   against `courses/<active>/progress.md`. If any untaught concept is required, train that
   concept first.
@@ -445,6 +452,19 @@ When the user says **"mistakes"** (or **"mistakes <course>"**):
    - Total unresolved / total logged.
    - Most recent 5 entries, one line each: `<timestamp> <category> <problem> — <note>`.
 4. Do NOT update `digest_at` — this view is separate from the weekly digest gate.
+
+## Review Command
+
+When the user says **"review"** (or **"review <course>"**):
+
+1. Without an argument, the review scope is **every enrolled course** — `make review`
+   interleaves due cards from all of them. With an argument, scope narrows to that one
+   course.
+2. Check the relevant `courses/<slug>/cards.json` files.
+3. If no cards exist anywhere in scope, tell the user: "No review cards yet. Solve some
+   problems first!"
+4. If cards exist, tell the user: "Run `make review` to review across every enrolled
+   course, or `make review <course>` to scope to one."
 
 ## Enroll Command
 
