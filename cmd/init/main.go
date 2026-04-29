@@ -72,22 +72,27 @@ func runInit() error {
 		return nil
 	}
 
-	selectedCourses, err := promptCourses(nil)
-	if err != nil {
-		return err
-	}
-	if len(selectedCourses) == 0 {
-		fmt.Println("No courses selected. Aborting.")
-		return nil
-	}
-
 	defaultAgent, err := promptAgent()
 	if err != nil {
 		return err
 	}
 
+	pickedCourse, err := promptCourse()
+	if err != nil {
+		return err
+	}
+
+	var enrollSlugs []string
+	if pickedCourse == courseLater {
+		for _, c := range courses.Known {
+			enrollSlugs = append(enrollSlugs, c.Slug)
+		}
+	} else {
+		enrollSlugs = []string{pickedCourse}
+	}
+
 	state := &courses.State{}
-	for _, slug := range selectedCourses {
+	for _, slug := range enrollSlugs {
 		if err := state.Enroll(slug); err != nil {
 			return err
 		}
@@ -101,15 +106,20 @@ func runInit() error {
 		return fmt.Errorf("save state.json: %w", err)
 	}
 
-	for _, slug := range selectedCourses {
+	for _, slug := range enrollSlugs {
 		if err := courses.EnsureCourseDir(slug); err != nil {
 			return fmt.Errorf("init course %s: %w", slug, err)
 		}
 	}
 
-	fmt.Printf("\nEnrolled in: %s\n", strings.Join(selectedCourses, ", "))
+	fmt.Printf("\nEnrolled in: %s\n", strings.Join(enrollSlugs, ", "))
 	if defaultAgent != "" {
 		fmt.Printf("Default agent: %s\n", defaultAgent)
+	}
+
+	if pickedCourse == courseLater {
+		fmt.Println("\nReady. Run `make train <course>` when you want to start.")
+		return nil
 	}
 
 	trainNow, err := promptTrainNow()
@@ -121,14 +131,7 @@ func runInit() error {
 		return nil
 	}
 
-	pick := state.Default
-	if len(state.Enrolled) > 1 {
-		pick, err = promptPickCourse(state.Enrolled, "Which course do you want to train?")
-		if err != nil {
-			return err
-		}
-	}
-	if err := state.SetActive(pick); err != nil {
+	if err := state.SetActive(pickedCourse); err != nil {
 		return err
 	}
 	if err := state.Save(); err != nil {
@@ -203,48 +206,32 @@ func parseGoVersion(v string) (int, int, error) {
 	return major, minor, nil
 }
 
-func promptCourses(preselect []string) ([]string, error) {
-	preselectSet := map[string]bool{}
-	if preselect == nil {
-		// Pre-select all by default on first init.
-		for _, c := range courses.Known {
-			preselectSet[c.Slug] = true
-		}
-	} else {
-		for _, s := range preselect {
-			preselectSet[s] = true
-		}
-	}
+// courseLater is the sentinel value returned by promptCourse when the user
+// wants to defer the choice. It enrolls them in every known course so they
+// can train any of them later without re-running setup.
+const courseLater = "__later__"
 
-	options := make([]huh.Option[string], 0, len(courses.Known))
+func promptCourse() (string, error) {
+	options := make([]huh.Option[string], 0, len(courses.Known)+1)
 	for _, c := range courses.Known {
-		opt := huh.NewOption(c.Name, c.Slug)
-		if preselectSet[c.Slug] {
-			opt = opt.Selected(true)
-		}
-		options = append(options, opt)
+		options = append(options, huh.NewOption(c.Name, c.Slug))
 	}
+	options = append(options, huh.NewOption("I'll decide later", courseLater))
 
-	var selected []string
+	var picked string
 	form := huh.NewForm(
 		huh.NewGroup(
-			huh.NewMultiSelect[string]().
-				Title("Pick the courses you want to enroll in").
-				Description("Space to toggle, enter to confirm").
+			huh.NewSelect[string]().
+				Title("Pick a course to start with").
+				Description("You can enroll in more anytime with `make enroll`.").
 				Options(options...).
-				Validate(func(s []string) error {
-					if len(s) == 0 {
-						return errors.New("pick at least one course")
-					}
-					return nil
-				}).
-				Value(&selected),
+				Value(&picked),
 		),
 	)
 	if err := form.Run(); err != nil {
-		return nil, err
+		return "", err
 	}
-	return selected, nil
+	return picked, nil
 }
 
 func promptAgent() (string, error) {
