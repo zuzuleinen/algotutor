@@ -72,6 +72,8 @@ Type these in your agent session:
 
 | Command                          | What it does                                                                  |
 |----------------------------------|-------------------------------------------------------------------------------|
+| `train`                          | Get the next problem in the active course                                     |
+| `train <course>`                 | Switch to `<course>` and start training there                                 |
 | `check`                          | Submit your solution for evaluation (grading, mistake logging, level updates) |
 | `I don't know`                   | Break the problem into simpler sub-problems                                   |
 | `I want to solve [problem desc]` | Request a specific problem with description or screenshot                     |
