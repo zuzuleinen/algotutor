@@ -51,6 +51,8 @@ Run initial set-up to choose your agent and optionally enroll in a course:
 make init
 ```
 
+Start a training session with `make train`. Start a review session with `make review`.
+
 ## Commands
 
 ### Local commands — terminal
