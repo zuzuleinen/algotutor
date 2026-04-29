@@ -81,31 +81,5 @@ Type these to your agent once it's running:
 
 ## Requirements
 
-- An AI coding agent — see [Supported agents](#supported-agents)
+- An AI coding agent — see [docs/agents.md](docs/agents.md) for the supported list and per-agent setup
 - [Go](https://go.dev/) ≥ 1.26
-
-## Supported agents
-
-algotutor works with any AI coding agent that can read files, edit files, and run shell
-commands. Most agents auto-load `AGENTS.md` (or `CLAUDE.md` / `GEMINI.md`, byte-identical
-mirrors).
-
-| Agent                                                         | How to use                                                       |
-|---------------------------------------------------------------|------------------------------------------------------------------|
-| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | `claude` — auto-loads `CLAUDE.md`                                |
-| [OpenAI Codex CLI](https://github.com/openai/codex)           | `codex --auto-edit` — auto-loads `AGENTS.md`                     |
-| [Cursor](https://cursor.com)                                  | Open folder, switch to Agent mode — auto-loads `AGENTS.md`       |
-| [Cline](https://github.com/cline/cline)                       | VS Code extension; type `train` in chat — auto-loads `AGENTS.md` |
-| [OpenCode](https://github.com/sst/opencode)                   | `opencode` — auto-loads `AGENTS.md`                              |
-| [Aider](https://aider.chat)                                   | `aider --read AGENTS.md`                                         |
-| Gemini CLI                                                    | `gemini` — auto-loads `GEMINI.md`                                |
-
-If you set a default agent during `make init`, `make train` and `make review` will
-auto-launch it for you with the right prompt. Otherwise they print "Open your agent and
-type `train`" and you do the launching.
-
-You can switch agents mid-session — all state lives in JSON / Markdown files on disk, so
-the next agent picks up exactly where the previous one left off.
-
-See [docs/agents.md](docs/agents.md) for per-agent model selection, permission flags, and
-bootstrap notes for agents that don't auto-load.

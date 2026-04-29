@@ -81,6 +81,12 @@ gemini
 
 `GEMINI.md` is auto-loaded (it's a byte-identical mirror of `AGENTS.md`).
 
+## Auto-launch from `make`
+
+If you set a default agent during `make init`, `make train` and `make review` will
+auto-launch it for you with the right prompt. Otherwise they print "Open your agent
+and type `train`" and you do the launching.
+
 ## If your agent doesn't auto-load
 
 Type this once at session start:
