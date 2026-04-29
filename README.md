@@ -21,7 +21,7 @@
 Your agent acts as your personal tutor, generating progressively harder problems. It tracks your skill level on each concept and picks the next problem
 based on where you are. 
 
-Current courses: **Algorithms & Data Structures** and **Go Concurrency**.
+Current courses: **Algorithms & Data Structures** and **Concurrency**.
 
 <div align="center">
 
