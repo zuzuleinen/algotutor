@@ -85,7 +85,7 @@ Type these to your agent once it's running:
 |----------------------------------|-------------------------------------------------------------------------------|
 | `check`                          | Submit your solution for evaluation (grading, mistake logging, level updates) |
 | `I don't know`                   | Break the problem into simpler sub-problems                                   |
-| `I want to solve [problem name]` | Request a specific problem from the active course                             |
+| `I want to solve [problem desc]` | Request a specific problem with description or screenshot                     |
 | `reset`                          | Wipe progress in the active course (with `confirm reset` gate)                |
 | `reset all`                      | Wipe progress in every enrolled course (with `confirm reset all` gate)        |
 
