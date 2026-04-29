@@ -51,7 +51,13 @@ Run initial set-up to choose your agent and optionally enroll in a course:
 make init
 ```
 
-Start a training session with `make train`. Start a review session with `make review`.
+## Train > Check > Review
+
+Start a training session with `make train`. 
+
+Submit your solution with `check`. It's OK to tell your tutor, "I don't know". They will pick an easier problem for you.
+
+Start a daily review session with `make review`.
 
 ## Commands
 
