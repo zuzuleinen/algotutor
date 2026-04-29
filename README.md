@@ -20,6 +20,10 @@
 
 **algotutor** turns an AI coding session into your personal tutor for Go.
 
+Your AI agent acts as a tutor that generates progressively harder problems in Go for the
+active course. It tracks your skill level on each concept and picks the next problem
+based on where you are.
+
 It hosts multiple courses, each with its own concept ladder, problem bank,
 spaced-repetition review, mistake tracking, re-solves, and interleaved mix sessions.
 
@@ -55,7 +59,7 @@ make init
 
 Start a training session with `make train`. 
 
-Submit your solution with `check`. It's OK to tell your tutor, "I don't know". They will pick an easier problem for you.
+Submit your solution by telling your tutor `check`. It's OK to say, `"I don't know"`. They will pick an easier problem for you.
 
 Start a daily review session with `make review`.
 
@@ -90,14 +94,6 @@ Type these to your agent once it's running:
 | `reset`                          | Wipe progress in the active course (with `confirm reset` gate)                |
 | `reset all`                      | Wipe progress in every enrolled course (with `confirm reset all` gate)        |
 
-## How it works
-
-Your AI agent acts as a tutor that generates progressively harder problems in Go for the
-active course. It tracks your skill level on each concept and picks the next problem
-based on where you are.
-
-Read more details:
-[algotutor: using AI to actually get better at algorithms](https://medium.com/@andreiboar/algotutor-using-ai-to-actually-get-better-at-algorithms-a2b7b96e054a)
 
 ### Spaced repetition review
 
