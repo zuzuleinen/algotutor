@@ -81,5 +81,5 @@ Type these to your agent once it's running:
 
 ## Requirements
 
-- An AI coding agent — see [docs/agents.md](docs/agents.md) for the supported list and per-agent setup
+- An AI coding agent — see [docs/agents.md](docs/agents.md) for the supported list and setup
 - [Go](https://go.dev/) ≥ 1.26
