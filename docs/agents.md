@@ -12,7 +12,7 @@ This page lists per-agent setup tips. Each agent is independent — pick one and
 | Agent             | Loads instructions from                                | Model config              | Permissions                                                              |
 | ----------------- | ------------------------------------------------------ | ------------------------- | ------------------------------------------------------------------------ |
 | Claude Code       | `CLAUDE.md` (auto)                                     | `.claude/settings.json`   | `.claude/settings.local.json`, or run with `--dangerously-skip-permissions` |
-| OpenAI Codex CLI  | `AGENTS.md` (auto)                                     | `~/.codex/config.toml`    | `--auto-edit` / `--full-auto`                                            |
+| OpenAI Codex CLI  | `AGENTS.md` (auto)                                     | `~/.codex/config.toml`    | `--sandbox <mode>` / `--ask-for-approval <policy>`                       |
 | Cursor            | `AGENTS.md` (auto, recent builds) or `.cursor/rules/`  | IDE settings              | Auto via Composer / Agent mode                                           |
 | Cline / Roo Code  | `AGENTS.md` (auto) or `.clinerules/`                   | Extension settings        | Extension permissions UI                                                 |
 | OpenCode          | `AGENTS.md` (auto)                                     | `~/.config/opencode/`     | Per-launch flag                                                          |
@@ -36,9 +36,9 @@ claude --dangerously-skip-permissions
 ### OpenAI Codex CLI
 
 ```sh
-codex --auto-edit
-# or, full automation including shell commands:
-codex --full-auto
+codex
+# or, to choose permissions for the session:
+codex --sandbox workspace-write --ask-for-approval on-request
 ```
 
 `AGENTS.md` is auto-loaded from the project root. Model preference goes in

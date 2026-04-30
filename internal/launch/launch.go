@@ -32,7 +32,7 @@ var Registry = []Agent{
 		DisplayName: "OpenAI Codex CLI",
 		Binary:      "codex",
 		BuildCmd: func(prompt string) []string {
-			return []string{"codex", "--auto-edit", prompt}
+			return []string{"codex", prompt}
 		},
 	},
 	{
