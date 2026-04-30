@@ -32,7 +32,7 @@ var Registry = []Agent{
 		DisplayName: "OpenAI Codex CLI",
 		Binary:      "codex",
 		BuildCmd: func(prompt string) []string {
-			return []string{"codex", prompt}
+			return []string{"codex", "--dangerously-bypass-approvals-and-sandbox", prompt}
 		},
 	},
 	{
