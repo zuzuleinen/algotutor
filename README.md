@@ -51,6 +51,8 @@ Submit your solution by telling your tutor `check`. It's OK to say, `"I don't kn
 
 Start a daily review session with `make review`.
 
+Read more about [here](https://medium.com/@andreiboar/algotutor-using-ai-to-actually-get-better-at-algorithms-a2b7b96e054a) about the motivations behind the project.
+
 ## Commands
 
 ### Local commands — terminal
