@@ -119,8 +119,12 @@ step-back-up) — the **text response** that announces the problem must follow t
 3. **Problem heading on the next line** as a bold title: `**Problem NNN — <Title>**` (or
    `**Drill — <category>**` / `**Re-solve — Problem NNN (<Title>)**` /
    `**Mix problem N/M — <Title>**` for those modes).
-4. **Problem body**: statement, contracts, examples, function signature, validation hint
-   (`Validate: make run`).
+4. **Problem body**: statement, contracts, examples, function signature, then close with
+   exactly this two-liner:
+   ```
+   Validate: make run
+   Say `check` when ready.
+   ```
 5. **Nothing else.** No closing remarks, no "good luck," no progress meta-commentary.
 
 Apply this shape every time a new problem (or sub-problem) appears. For mid-problem
