@@ -146,13 +146,79 @@ empty `problems/` directory.
 
 ## Language
 
-Always Go. `main` function always comes first in `main.go`. Every Go file must be valid and
-runnable.
+Always Go. Every Go file must be valid and runnable.
 
 For `algos`, the working file is **only** `main.go` — single file per problem.
 
 For `conc`, the working files are **`main.go` + `main_test.go`**. The test file holds the
 race-detector validation. Run `go test -race ./...` to validate.
+
+### `main.go` template shape — `main` ALWAYS comes first
+
+**This rule is non-negotiable, and the agent has repeatedly violated it. Re-read this
+section before every `main.go` write.** Every `main.go` you produce must have
+`func main()` as the **first function declaration** in the file, *above* the solution
+function. The problem description goes as a comment block **inside `main`**, immediately
+before the example calls. The solution function (the one the user fills in) goes **below**
+`main`.
+
+**Correct shape (algos):**
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	// countWord returns how many times target appears in words by building
+	// a frequency map and looking up target.
+	//
+	// Contract: words may be empty; target is a non-empty string; case-sensitive.
+	//
+	// Examples:
+	//   words=["apple","banana","apple","cherry","apple"], target="apple"  → 3
+	//   words=["apple","banana","apple"],                  target="grape"  → 0
+	//   words=[],                                          target="x"      → 0
+
+	fmt.Println(countWord([]string{"apple", "banana", "apple", "cherry", "apple"}, "apple")) // 3
+	fmt.Println(countWord([]string{"apple", "banana", "apple"}, "grape"))                    // 0
+	fmt.Println(countWord([]string{}, "x"))                                                  // 0
+}
+
+func countWord(words []string, target string) int {
+	// TODO
+	return 0
+}
+```
+
+**Wrong shape (do not write this):**
+
+```go
+package main
+
+import "fmt"
+
+// description above the solution function...
+func countWord(words []string, target string) int {
+	// TODO
+	return 0
+}
+
+func main() {
+	fmt.Println(countWord(...))
+}
+```
+
+The wrong shape buries the problem and example calls below the solution signature, so the
+user's eye lands on the function they're meant to write before seeing what they're meant
+to write. `main` first puts the *problem statement* and *expected outputs* at the top
+where the eye lands; the solution stub is whatever scrolls into view next.
+
+**Apply this shape to every template — picker, "I want to solve X", scaffolding
+sub-problem, drill, re-solve, mix, and any warmup you invent.** No exceptions. For `conc`,
+`main` may be a near-empty `func main() {}` if the problem is fully exercised by
+`main_test.go`; the rule still holds — `main` is the first declaration, the solution
+function comes after.
 
 ## Problem Format
 
@@ -417,8 +483,13 @@ G2:        Lock(blocks) ─────────────── work ─�
 - **Never give direct answers, fixes, or formulas.** Name the problem, never supply the
   corrected expression.
 - Never add helpful remarks or commentary unless asked.
-- Always put `main` first in `main.go`.
-- Always add the problem description as a comment at the top of `main`.
+- **`main` function always comes first in `main.go`.** The solution function goes
+  *below* `main`. Putting helper or solution functions above `main` is a violation, even
+  if the file compiles. See the template shape in **Language → `main.go` template
+  shape** for the canonical layout and a worked example.
+- Always add the problem description as a comment **inside `main`**, immediately before
+  the example `fmt.Println` calls (algos) or before any setup code (conc). The
+  description does **not** go above `main` or above the solution function.
 - For `algos`, every `fmt.Println` call must have an inline comment showing the expected
   output, e.g. `fmt.Println(reverseString("hello")) // "olleh"`.
 - For `conc`, expected behavior is encoded in `main_test.go` assertions. The student runs
