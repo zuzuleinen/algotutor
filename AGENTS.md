@@ -153,14 +153,19 @@ For `algos`, the working file is **only** `main.go` — single file per problem.
 For `conc`, the working files are **`main.go` + `main_test.go`**. The test file holds the
 race-detector validation. Run `go test -race ./...` to validate.
 
-### `main.go` template shape — `main` ALWAYS comes first
+### `main.go` template shape — description ABOVE `main`, `main` ABOVE solution
 
 **This rule is non-negotiable, and the agent has repeatedly violated it. Re-read this
-section before every `main.go` write.** Every `main.go` you produce must have
-`func main()` as the **first function declaration** in the file, *above* the solution
-function. The problem description goes as a comment block **inside `main`**, immediately
-before the example calls. The solution function (the one the user fills in) goes **below**
-`main`.
+section before every `main.go` write.** Every `main.go` you produce must lay out exactly
+three blocks in this order:
+
+1. **The problem description** as a top-level comment block **above** `func main()` —
+   *not* inside `main`, *not* above the solution function. Statement, contract, recognition
+   cue, examples all go here.
+2. **`func main()`** — the **first function declaration** in the file. Its body holds
+   *only* the example calls (with inline `// expected output` comments for algos) and any
+   minimal setup. No problem-description comments inside `main`.
+3. **The solution function** (the one the user fills in) — below `main`.
 
 **Correct shape (algos):**
 
@@ -169,17 +174,17 @@ package main
 
 import "fmt"
 
-func main() {
-	// countWord returns how many times target appears in words by building
-	// a frequency map and looking up target.
-	//
-	// Contract: words may be empty; target is a non-empty string; case-sensitive.
-	//
-	// Examples:
-	//   words=["apple","banana","apple","cherry","apple"], target="apple"  → 3
-	//   words=["apple","banana","apple"],                  target="grape"  → 0
-	//   words=[],                                          target="x"      → 0
+// countWord returns how many times target appears in words by building
+// a frequency map and looking up target.
+//
+// Contract: words may be empty; target is a non-empty string; case-sensitive.
+//
+// Examples:
+//   words=["apple","banana","apple","cherry","apple"], target="apple"  → 3
+//   words=["apple","banana","apple"],                  target="grape"  → 0
+//   words=[],                                          target="x"      → 0
 
+func main() {
 	fmt.Println(countWord([]string{"apple", "banana", "apple", "cherry", "apple"}, "apple")) // 3
 	fmt.Println(countWord([]string{"apple", "banana", "apple"}, "grape"))                    // 0
 	fmt.Println(countWord([]string{}, "x"))                                                  // 0
@@ -191,7 +196,27 @@ func countWord(words []string, target string) int {
 }
 ```
 
-**Wrong shape (do not write this):**
+**Wrong shape #1 (description buried inside `main`) — do not write this:**
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	// countWord returns how many times target appears...
+	// (description hidden inside main, scrolled past on every read)
+
+	fmt.Println(countWord(...))
+}
+
+func countWord(words []string, target string) int {
+	// TODO
+	return 0
+}
+```
+
+**Wrong shape #2 (solution above `main`) — also do not write this:**
 
 ```go
 package main
@@ -209,16 +234,18 @@ func main() {
 }
 ```
 
-The wrong shape buries the problem and example calls below the solution signature, so the
-user's eye lands on the function they're meant to write before seeing what they're meant
-to write. `main` first puts the *problem statement* and *expected outputs* at the top
-where the eye lands; the solution stub is whatever scrolls into view next.
+Wrong shape #1 buries the description inside `main`; the file opens with `func main() {`
+and the problem statement reads like a code comment rather than a document header. Wrong
+shape #2 buries the description above the solution stub, so the user's eye lands on the
+function they're meant to write before seeing what they're meant to write. The correct
+shape puts the *problem statement and expected outputs at the top of the file*, then
+`main` showing how the function is called, then the stub the user fills in.
 
 **Apply this shape to every template — picker, "I want to solve X", scaffolding
 sub-problem, drill, re-solve, mix, and any warmup you invent.** No exceptions. For `conc`,
 `main` may be a near-empty `func main() {}` if the problem is fully exercised by
-`main_test.go`; the rule still holds — `main` is the first declaration, the solution
-function comes after.
+`main_test.go`; the rule still holds — description above `main`, `main` is the first
+function declaration, the solution function comes after.
 
 ## Problem Format
 
@@ -483,13 +510,15 @@ G2:        Lock(blocks) ─────────────── work ─�
 - **Never give direct answers, fixes, or formulas.** Name the problem, never supply the
   corrected expression.
 - Never add helpful remarks or commentary unless asked.
-- **`main` function always comes first in `main.go`.** The solution function goes
-  *below* `main`. Putting helper or solution functions above `main` is a violation, even
-  if the file compiles. See the template shape in **Language → `main.go` template
-  shape** for the canonical layout and a worked example.
-- Always add the problem description as a comment **inside `main`**, immediately before
-  the example `fmt.Println` calls (algos) or before any setup code (conc). The
-  description does **not** go above `main` or above the solution function.
+- **`main` function always comes first in `main.go`** (above any other function). The
+  solution function goes *below* `main`. Putting helper or solution functions above `main`
+  is a violation, even if the file compiles. See **Language → `main.go` template shape**
+  for the canonical layout and worked example.
+- **Problem description goes ABOVE `func main()`** as a top-level comment block —
+  statement, contract, recognition cue, examples. The description does **not** go inside
+  `main`, and it does **not** go above the solution function. `main`'s body holds only
+  the example calls (with inline expected-output comments for algos) and any minimal
+  setup.
 - For `algos`, every `fmt.Println` call must have an inline comment showing the expected
   output, e.g. `fmt.Println(reverseString("hello")) // "olleh"`.
 - For `conc`, expected behavior is encoded in `main_test.go` assertions. The student runs
