@@ -57,16 +57,16 @@ Read more [here](https://medium.com/@andreiboar/algotutor-using-ai-to-actually-g
 
 ### Local commands — terminal
 
-| Command                | What it does                                                              |
-|------------------------|---------------------------------------------------------------------------|
-| `make init`            | First-time setup — enroll in courses, pick a default agent                |
-| `make enroll`          | Add another course to your enrollment                                     |
-| `make train`           | Launch your agent in training mode for the active course                  |
-| `make train <slug>`    | Switch active course to `<slug>` and launch the agent there               |
-| `make review`          | Open the review TUI across every enrolled course                          |
-| `make review <slug>`   | Open the review TUI scoped to one course                                  |
-| `make list`            | List all available courses and your enrollment status                     |
-| `make run`             | Sanity-check your solution before `check` (active-course aware)           |
+| Command                | What it does                                                                                 |
+|------------------------|----------------------------------------------------------------------------------------------|
+| `make init`            | First-time setup — enroll in courses, pick a default agent                                   |
+| `make enroll`          | Add another course to your enrollment                                                        |
+| `make train`           | Launch your agent in training mode for the active course                                     |
+| `make train <slug>`    | Switch active course to `<slug>` and launch the agent there. Supported slugs: `algos` and `conc` |
+| `make review`          | Open the review TUI across every enrolled course                                             |
+| `make review <slug>`   | Open the review TUI scoped to one course                                                     |
+| `make list`            | List all available courses and your enrollment status                                        |
+| `make run`             | Sanity-check your solution before `check` (active-course aware)                              |
 
 ### Agent commands — chat
 
